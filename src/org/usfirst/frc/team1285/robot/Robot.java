@@ -168,7 +168,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("LEFT DRIVE ENCODER", drive.getLeftEncoderDist());
 		SmartDashboard.putNumber("RIGHT DRIVE ENCODER", drive.getRightEncoderDist());
 		SmartDashboard.putNumber("AVERAGE DRIVE ENCODER", drive.getAverageDistance());
-		
+		 
 		//Drive Preferences
 		SmartDashboard.putNumber("pDrive", NumberConstants.pDrive);
 		SmartDashboard.putNumber("iDrive", NumberConstants.iDrive);
