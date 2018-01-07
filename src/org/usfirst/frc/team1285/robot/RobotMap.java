@@ -21,49 +21,37 @@ public class RobotMap {
 	//******************************* INTAKE ***********************************
 	//**************************************************************************        
 		
-	public static final int RIGHT_ARM                                       = 5; 
-	public static final int LEFT_ARM                                        = 6;
-		
-	public static final int RIGHT_INTAKE                                    = 7;
-	public static final int LEFT_INTAKE                                     = 8;
-	
-	public static final int JACK_POT	= 0;
-	
-	//**************************************************************************
-	//******************************* CLIMBER **********************************
-	//**************************************************************************
-	
-	public static final int LEFT_WINCH 										= 9;
-	public static final int RIGHT_WINCH										= 10;
+//	public static final int RIGHT_ARM                                       = 5; 
+//	public static final int LEFT_ARM                                        = 6;
+//		
+//	public static final int RIGHT_INTAKE                                    = 7;
+//	public static final int LEFT_INTAKE                                     = 8;
+//	
+//	public static final int JACK_POT	= 0;
 	
 	//**************************************************************************
 	//************************** GEARTOOL SENSORS ******************************
 	//**************************************************************************
-		
-//	public static final int GEAR_STATE										= 1;
 	
-	public static final int GEARTOOL_LIMIT_SWITCH						
-	= 0;
-	
-	public static final int ARM_PIVOT_ENCODER_A								= 3;
-	public static final int ARM_PIVOT_ENCODER_B								= 4;
+//	public static final int ARM_PIVOT_ENCODER_A								= 3;
+//	public static final int ARM_PIVOT_ENCODER_B								= 4;
 
 
 	//**************************************************************************
 	//*************************** PNEUMATICS ***********************************
 	//**************************************************************************
-	//clamps
-	public static final int INTAKE_SOLENOID_A								= 1;
-	public static final int INTAKE_SOLENOID_B							 	= 0;
-	//drive gearboxes
-	public static final int DRIVE_SOLENOID_A							 	= 2;
-	public static final int DRIVE_SOLENOID_B							 	= 3;
-	//right fork
-	public static final int CLIMBER_SOLENOID_A							 	= 4;
-	public static final int CLIMBER_SOLENOID_B							 	= 5;
-	//left fork
-	public static final int CLIMBER_SOLENOID_C								= 6;
-	public static final int CLIMBER_SOLENOID_D 								= 7;
+//	//clamps
+//	public static final int INTAKE_SOLENOID_A								= 1;
+//	public static final int INTAKE_SOLENOID_B							 	= 0;
+//	//drive gearboxes
+//	public static final int DRIVE_SOLENOID_A							 	= 2;
+//	public static final int DRIVE_SOLENOID_B							 	= 3;
+//	//right fork
+//	public static final int CLIMBER_SOLENOID_A							 	= 4;
+//	public static final int CLIMBER_SOLENOID_B							 	= 5;
+//	//left fork
+//	public static final int CLIMBER_SOLENOID_C								= 6;
+//	public static final int CLIMBER_SOLENOID_D 								= 7;
 	
 	//**************************************************************************
     //********************* DRIVE ENCODER CONSTANTS ****************************

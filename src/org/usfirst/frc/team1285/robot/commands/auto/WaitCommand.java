@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1285.robot.utilities;
+package org.usfirst.frc.team1285.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 

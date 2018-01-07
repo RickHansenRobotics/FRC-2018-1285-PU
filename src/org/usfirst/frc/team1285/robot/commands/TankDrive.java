@@ -1,82 +1,90 @@
 package org.usfirst.frc.team1285.robot.commands;
 
-import org.usfirst.frc.team1285.robot.NumberConstants;
-import org.usfirst.frc.team1285.robot.Robot;
-import org.usfirst.frc.team1285.robot.commands.auto.DriveDistance;
-import org.usfirst.frc.team1285.robot.commands.auto.DriveTurn;
+import com.team1241.frc2016.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Neil Balaskandarajah
+ *	This class is used to set a default command for the Drivetrain subsystem. This command allows the driver to
+ *	control the robot using tank drive. 
+ *
+ * @author Bryan Kristiono
+ * @since 2016-01-10
  */
-	
-
 public class TankDrive extends Command {
-	private DriveDistance drivePoint;
-	private DriveTurn trackTurn;
 	
+	/** The Constant DELTA_LIMIT. */
+	private static final double DELTA_LIMIT = 0.75;
+	
+	/** The Constant RAMP_UP_CONSTANT. */
+	private static final double RAMP_UP_CONSTANT = 0.05;
+	
+	/** The Constant RAMP_DOWN_CONSTANT. */
+	private static final double RAMP_DOWN_CONSTANT = 0.05;
+	
+	/** Variables used for joystick ramping*/
+	double deltaL = 0;
+	double deltaR = 0;
+	double prevInputL = 0;
+	double inputL = 0;
+	double prevInputR = 0;
+	double inputR = 0;
+
+	/**
+	 * Instantiates a new tank drive Command.
+	 */
 	public TankDrive() {
-		// Use requires() here to declare subsystem dependencies
+		// Makes sure that no other commands use the drivetrain at the same time
 		requires(Robot.drive);
-		drivePoint = new DriveDistance(60, 1, 0, 5);
-		
-		trackTurn = new DriveTurn (Robot.drive.getYaw() + Robot.vision.anglePhone, 0.5, 5) ;
 	}
 
-	// Called just before this Command runs the first time
 	protected void initialize() {
-		
 	}
 
-	// Called repeatedly when this Command is scheduled to run
+	/**
+	 * This method will run as long as isFinished() returns true
+	 * In this method values from the joystick are sent to the corresponding drives to make the robot move.
+	 */
 	protected void execute() {
+		inputL = -Robot.oi.getDriveLeftY();
+		inputR = Robot.oi.getDriveRightY();
 		
-//		if (Robot.oi.getDriveAButton()){
-//			drivePoint.start();	
-//		}
-			
-		//}
+		deltaL = inputL - prevInputL;
+		deltaR = inputR - prevInputR;
 		
-		if (Robot.oi.getDriveLeftTrigger()) { //Shift into low gear
-			Robot.drive.shiftLow();
-		} else if (Robot.oi.getDriveRightTrigger()) { //Shift into high gear
-			Robot.drive.shiftHigh();
-		} else if (Robot.oi.getDriveRightBumper()) { //half speed
-			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY()*NumberConstants.slowSpeedScale);
-			Robot.drive.runRightDrive(-Robot.oi.getDriveRightY()*NumberConstants.slowSpeedScale);
-		} else if (Robot.oi.getDriveLeftBumper()) { //juke speed
-			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY()*NumberConstants.jukeSpeedScale);
-			Robot.drive.runRightDrive(-Robot.oi.getDriveRightY()*NumberConstants.jukeSpeedScale);
-		} else if(Robot.oi.getDriveStartButton()){ //reset encoders
-			Robot.drive.resetEncoders();
-		} else if(Robot.oi.getDriveXButton()) { //brake drive
-			Robot.drive.BrakeDrive();
-		} else if(Robot.oi.getDriveYButton()){ //coast drive
-			Robot.drive.CoastDrive();
-		} else { //full speed
-			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY());
-			Robot.drive.runRightDrive(-Robot.oi.getDriveRightY());
+		if(deltaL >= DELTA_LIMIT)
+			inputL += RAMP_UP_CONSTANT;
+		else if(deltaL <= -DELTA_LIMIT)
+			inputL -= RAMP_DOWN_CONSTANT;
+		
+		if(deltaR >= DELTA_LIMIT)
+			inputR += RAMP_UP_CONSTANT;
+		else if(deltaR <= -DELTA_LIMIT)
+			inputR -= RAMP_DOWN_CONSTANT;
+		
+		// Runs drive at jotstick input, if right bumper is pressed drive speed is halved
+		if(Robot.oi.getDriveRightBumper()) {
+			Robot.drive.runLeftDrive(inputL*0.5);
+			Robot.drive.runRightDrive(inputR*0.5);
+		}
+		else {
+			Robot.drive.runLeftDrive(inputL);
+			Robot.drive.runRightDrive(inputR);
 		}
 		
-		if(Robot.oi.getDriveStartButton()){
-			Robot.drive.driveTurn(Robot.drive.getYaw() + Robot.vision.anglePhone, 0.5);
-			//trackTurn.start();
-		}
-}
-
+		prevInputL = inputL;
+		prevInputR = inputR;
+	}
+	
+	// isFinished() always returns false, as we don't want TankDrive to stop by default
 	protected boolean isFinished() {
 		return false;
 	}
 
-	// Called once after isFinished returns true
 	protected void end() {
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	protected void interrupted() {
-		Robot.drive.runLeftDrive(0);
-		Robot.drive.runRightDrive(0);
+	protected void interrupted() {   
 	}
 }

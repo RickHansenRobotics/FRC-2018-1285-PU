@@ -17,7 +17,6 @@ public class OI {
     Joystick drivePad;
     Joystick toolPad;
     
-    JoystickButton bButton;
     /**
      * Initializes the joystick objects 
      */
@@ -25,8 +24,6 @@ public class OI {
     {
         drivePad = new Joystick (GamepadConstants.DRIVE_USB_PORT);
         toolPad = new Joystick (GamepadConstants.TOOL_USB_PORT);
-        
-        bButton = new JoystickButton (drivePad, GamepadConstants.B_BUTTON);
     }
     
     /**
@@ -335,9 +332,5 @@ public class OI {
     public boolean getToolRightButton()
     {
         return toolPad.getRawButton(GamepadConstants.RIGHT_ANALOG_BUTTON);
-    }
-    
-    public void driveDistance () {
-    	//bButton.whenPressed(new DriveDistance(50,5,0.5,0));
     }
 }

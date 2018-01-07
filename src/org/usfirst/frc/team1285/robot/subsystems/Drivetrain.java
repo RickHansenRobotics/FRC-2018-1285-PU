@@ -85,7 +85,7 @@ public class Drivetrain extends Subsystem {
 
 		gyroPID = new PIDController(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
 
-		DriveGearboxShifter = new DoubleSolenoid(RobotMap.DRIVE_SOLENOID_A, RobotMap.DRIVE_SOLENOID_B);
+//		DriveGearboxShifter = new DoubleSolenoid(RobotMap.DRIVE_SOLENOID_A, RobotMap.DRIVE_SOLENOID_B);
 		
 		//gyro = new ADXRS450_Gyro();
 		@SuppressWarnings("unused")
@@ -223,8 +223,8 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void resetEncoders() {
-		leftDriveBack.setPosition(0);
-		rightDriveBack.setPosition(0);
+//		leftDriveBack.setPosition(0);
+//		rightDriveBack.setPosition(0);
 	}
 
 	/************************ GYRO FUNCTIONS ************************/

@@ -6,10 +6,12 @@ import edu.wpi.first.wpilibj.Timer;
  * Class used for toggling between two state, mainly created due to Logitech
  * F310 buttons bouncing when pressed
  * 
+ * @author Mahrus Kazi
  */
 public class ToggleBoolean {
 
 	// booleans to remember states
+	private boolean isHeld = false;
 	private boolean toggle = false;
 	private boolean waited = true;
 

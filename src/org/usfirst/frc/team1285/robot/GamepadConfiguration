@@ -1,0 +1,43 @@
+Drive Controller						Manual				Automatic
+X_BUTTON                        =	Auto DrawBridge
+A_BUTTON                        =	Auto Portcullis
+B_BUTTON                        =	Auto Cheval
+Y_BUTTON                        =	Auto SallyPort
+LEFT_BUMPER                     =	
+RIGHT_BUMPER                    =	
+LEFT_TRIGGER                    =	50% Drive speed
+RIGHT_TRIGGER                   =	
+BACK_BUTTON                     =	
+START_BUTTON                    =	
+LEFT_ANALOG_BUTTON              =	
+RIGHT_ANALOG_BUTTON             =	
+   
+LEFT_ANALOG_X                   =	
+LEFT_ANALOG_Y                   =	Left drive motors
+RIGHT_ANALOG_X                  =	
+RIGHT_ANALOG_Y                  =	Right drive motors
+DPAD_X                          =	
+DPAD_Y							=	
+
+
+
+Tool Controller							Manual					Automatic
+X_BUTTON                        =	outtake
+A_BUTTON                        =	intake
+B_BUTTON                        =	holder toggle
+Y_BUTTON                        =	turret toggle
+LEFT_BUMPER                     =	badderShot rev up
+RIGHT_BUMPER                    =	stop rev up
+LEFT_TRIGGER                    =	spyShot rev up
+RIGHT_TRIGGER                   =	shoot sequence
+BACK_BUTTON                     =	
+START_BUTTON                    =	
+LEFT_ANALOG_BUTTON              =	
+RIGHT_ANALOG_BUTTON             =	
+   
+LEFT_ANALOG_X                   =	
+LEFT_ANALOG_Y                   =	Move intake arms
+RIGHT_ANALOG_X                  =	
+RIGHT_ANALOG_Y                  =	
+DPAD_X                          =	
+DPAD_Y							=	
