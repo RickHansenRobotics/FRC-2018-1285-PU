@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1285.robot.commands;
 
-import com.team1241.frc2016.Robot;
+import org.usfirst.frc.team1285.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -13,23 +13,6 @@ import edu.wpi.first.wpilibj.command.Command;
  * @since 2016-01-10
  */
 public class TankDrive extends Command {
-	
-	/** The Constant DELTA_LIMIT. */
-	private static final double DELTA_LIMIT = 0.75;
-	
-	/** The Constant RAMP_UP_CONSTANT. */
-	private static final double RAMP_UP_CONSTANT = 0.05;
-	
-	/** The Constant RAMP_DOWN_CONSTANT. */
-	private static final double RAMP_DOWN_CONSTANT = 0.05;
-	
-	/** Variables used for joystick ramping*/
-	double deltaL = 0;
-	double deltaR = 0;
-	double prevInputL = 0;
-	double inputL = 0;
-	double prevInputR = 0;
-	double inputR = 0;
 
 	/**
 	 * Instantiates a new tank drive Command.
@@ -46,35 +29,16 @@ public class TankDrive extends Command {
 	 * This method will run as long as isFinished() returns true
 	 * In this method values from the joystick are sent to the corresponding drives to make the robot move.
 	 */
-	protected void execute() {
-		inputL = -Robot.oi.getDriveLeftY();
-		inputR = Robot.oi.getDriveRightY();
-		
-		deltaL = inputL - prevInputL;
-		deltaR = inputR - prevInputR;
-		
-		if(deltaL >= DELTA_LIMIT)
-			inputL += RAMP_UP_CONSTANT;
-		else if(deltaL <= -DELTA_LIMIT)
-			inputL -= RAMP_DOWN_CONSTANT;
-		
-		if(deltaR >= DELTA_LIMIT)
-			inputR += RAMP_UP_CONSTANT;
-		else if(deltaR <= -DELTA_LIMIT)
-			inputR -= RAMP_DOWN_CONSTANT;
-		
+	protected void execute() {		
 		// Runs drive at jotstick input, if right bumper is pressed drive speed is halved
 		if(Robot.oi.getDriveRightBumper()) {
-			Robot.drive.runLeftDrive(inputL*0.5);
-			Robot.drive.runRightDrive(inputR*0.5);
+			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY()*0.5);
+			Robot.drive.runRightDrive(Robot.oi.getDriveRightY()*0.5);
 		}
 		else {
-			Robot.drive.runLeftDrive(inputL);
-			Robot.drive.runRightDrive(inputR);
+			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY());
+			Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
 		}
-		
-		prevInputL = inputL;
-		prevInputR = inputR;
 	}
 	
 	// isFinished() always returns false, as we don't want TankDrive to stop by default

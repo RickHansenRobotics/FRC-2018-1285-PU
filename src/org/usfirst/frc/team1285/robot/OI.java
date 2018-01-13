@@ -1,5 +1,4 @@
 package org.usfirst.frc.team1285.robot;
-import org.usfirst.frc.team1285.robot.commands.auto.DriveDistance;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

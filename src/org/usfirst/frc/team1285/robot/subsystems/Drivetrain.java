@@ -5,8 +5,10 @@ import org.usfirst.frc.team1285.robot.RobotMap;
 import org.usfirst.frc.team1285.robot.commands.TankDrive;
 import org.usfirst.frc.team1285.robot.utilities.PIDController;
 
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -18,30 +20,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * @author Saleen Shahriar
- * @author Neil Balaskandarajah
+ * @author Bryan Kristiono
  */
 public class Drivetrain extends Subsystem {
 
-	CANTalon leftDriveFront;
-	CANTalon leftDriveBack;
+	private WPI_TalonSRX leftFollower;
+	private WPI_TalonSRX leftMaster;
 
-	CANTalon rightDriveFront;
-	CANTalon rightDriveBack;
+	private WPI_TalonSRX rightFollower;
+	private WPI_TalonSRX rightMaster;
 
-	DoubleSolenoid DriveGearboxShifter;
-	
 	//ADXRS450_Gyro gyro;
 	AHRS gyro;
 
 	public PIDController drivePID;
-	public PIDController drivePIDR;
 	public PIDController gyroPID;
-
-	private boolean DriveGearState;
-	private boolean DriveMotorState;
-
-	public double[] driveCurrentDraw = new double[4];
 
 	public Drivetrain() {
 		
@@ -62,75 +55,60 @@ public class Drivetrain extends Subsystem {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 		}
 		
-		// left front
-		leftDriveFront = new CANTalon(RobotMap.LEFT_DRIVE_FRONT);
-
 		// left back
-		leftDriveBack = new CANTalon(RobotMap.LEFT_DRIVE_BACK);
-		leftDriveBack.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		leftDriveBack.reverseSensor(true);
-		leftDriveBack.configEncoderCodesPerRev(1024);
+		leftMaster = new WPI_TalonSRX(RobotMap.LEFT_DRIVE_BACK);
+		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		leftMaster.setInverted(RobotMap.leftInverted);
 		
-		// right front
-		rightDriveFront = new CANTalon(RobotMap.RIGHT_DRIVE_FRONT);
+		// left front
+		leftFollower = new WPI_TalonSRX(RobotMap.LEFT_DRIVE_FRONT);
+		leftFollower.set(ControlMode.Follower, RobotMap.LEFT_DRIVE_BACK);
 
 		// right back
-		rightDriveBack = new CANTalon(RobotMap.RIGHT_DRIVE_BACK);
-		rightDriveBack.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		rightDriveBack.reverseSensor(false);
-		rightDriveBack.configEncoderCodesPerRev(1024);
-
+		rightMaster = new WPI_TalonSRX(RobotMap.LEFT_DRIVE_BACK);
+		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		rightMaster.setInverted(RobotMap.rightInverted);
+		
+		// right front
+		rightFollower = new WPI_TalonSRX(RobotMap.RIGHT_DRIVE_FRONT);
+		rightFollower.set(ControlMode.Follower, RobotMap.LEFT_DRIVE_BACK);
+		
 		drivePID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-		drivePIDR = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-
 		gyroPID = new PIDController(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
 
-//		DriveGearboxShifter = new DoubleSolenoid(RobotMap.DRIVE_SOLENOID_A, RobotMap.DRIVE_SOLENOID_B);
+//		leftMaster.setPID(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
+		leftMaster.setNeutralMode(NeutralMode.Brake);
+		rightMaster.setNeutralMode(NeutralMode.Brake);
+		
 		
 		//gyro = new ADXRS450_Gyro();
-		@SuppressWarnings("unused")
-		double driveCurrentDraw[] = new double[] { leftDriveBack.getOutputCurrent(),
-				//leftDriveFront.getOutputCurrent(), rightDriveBack.getOutputCurrent(),
-				rightDriveFront.getOutputCurrent() };
+//		@SuppressWarnings("unused")
+//		double driveCurrentDraw[] = new double[] { leftDriveBack.getOutputCurrent(),
+//				//leftDriveFront.getOutputCurrent(), rightDriveBack.getOutputCurrent(),
+//				rightDriveFront.getOutputCurrent() };
 	}
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new TankDrive());
 	}
-
-	public void BrakeDrive() { // completely lock drive while scoring gear
-		// set all Talons to brake
-		leftDriveFront.enableBrakeMode(true);
-		leftDriveBack.enableBrakeMode(true);
-		rightDriveFront.enableBrakeMode(true);
-		rightDriveBack.enableBrakeMode(true);
-		
-		DriveMotorState = false; //shows RED for BRAKE on SmartDashboard
-	}
-
-	public void CoastDrive() {
-		leftDriveFront.enableBrakeMode(false);
-		leftDriveBack.enableBrakeMode(false);
-		rightDriveFront.enableBrakeMode(false);
-		rightDriveBack.enableBrakeMode(false);
-		
-		DriveMotorState = true; //shows GREEN for COAST on SmartDashboard
-		}
 	
 	public void runLeftDrive(double pwmVal) {
-		leftDriveBack.set(pwmVal);
-		leftDriveFront.set(pwmVal);
+		leftMaster.set(pwmVal);
 	}
 
 	public void runRightDrive(double pwmVal) {
-		rightDriveBack.set(pwmVal);
-		rightDriveFront.set(pwmVal);
+		rightMaster.set(pwmVal);
 	}
-	public void driveTurn(double setAngle, double speed) {
+	
+	public void turnDrive(double setAngle, double speed) {
+		turnDrive(setAngle, speed, 1);
+	}
+	
+	public void turnDrive(double setAngle, double speed, double tolerance) {
 		double angle = gyroPID.calcPID(setAngle, getYaw(), 1);
 		double min = 0.05;
 	
-		if(Math.abs(setAngle - getYaw()) < 1){	
+		if(Math.abs(setAngle - getYaw()) < tolerance){	
 			runLeftDrive(0);
 			runRightDrive(0);
 		}
@@ -139,48 +117,27 @@ public class Drivetrain extends Subsystem {
 			runRightDrive(-min);
 		}
 		else if(angle < min && angle > 0){
-			runLeftDrive(-min);
-			runRightDrive(-min);
+			runLeftDrive(min);
+			runRightDrive(min);
 		}
 		else{	
-			runLeftDrive(-angle);
-			runRightDrive(-angle);
+			runLeftDrive(-angle * speed);
+			runRightDrive(-angle * speed);
 		}
-
 	}
 	
 	public void driveSetpoint(double setPoint, double speed, double setAngle) {
-		double output = drivePID.calcPID(setPoint, getAverageDistance(), 1);
-		double angle = gyroPID.calcPID(setAngle, getYaw(), 1);
+		driveSetpoint(setPoint, speed, setAngle, 1);
+	}
+	
+	public void driveSetpoint(double setPoint, double speed, double setAngle, double tolerance) {
+		double output = drivePID.calcPID(setPoint, getAverageDistance(), tolerance);
+		double angle = gyroPID.calcPID(setAngle, getYaw(), tolerance);
 
 		runLeftDrive ((-output - angle) * speed);
 		runRightDrive ((output - angle) * speed);
 	}
 	
-//	public void driveSetpointViper(double setPoint, double speed, double setAngle) {
-//		double output = drivePID.calcPID(setPoint, getLeftEncoderDist(), 0.01);
-//		double outputR = drivePIDR.calcPID(setPoint, getRightEncoderDist(), 0.01);
-//		double angle = gyroPID.calcPID(setAngle, getYaw(), 0.01);
-//
-//		runLeftDrive ((-output - angle) * speed);
-//		runRightDrive ((outputR - angle) * speed);
-////		runLeftDrive (-output * speed);
-////		runRightDrive (outputR * speed);
-//	}
-	
-	public void driveSetpointViper(double setPoint, double speed) {
-		double output = drivePID.calcPID(setPoint, getLeftEncoderDist(), 0.01);
-		double outputR = drivePIDR.calcPID(setPoint, getRightEncoderDist(), 0.01);
-		runLeftDrive ((-output) * speed);
-		runRightDrive ((outputR) * speed);
-//		runLeftDrive (-output * speed);
-//		runRightDrive (outputR * speed);
-	}
-	
-	public void driveBlast() {
-		runLeftDrive(1);
-		runRightDrive(-1);
-	}
 	public boolean drivePIDDone() {
 		return drivePID.isDone();
 	}
@@ -190,32 +147,22 @@ public class Drivetrain extends Subsystem {
 		resetGyro();
 	}
 
-	// SHIFT METHODS
-	public void shiftLow() {
-		DriveGearState = false;
-		DriveGearboxShifter.set(DoubleSolenoid.Value.kForward);
-	}
-
-	public void shiftHigh() {
-		DriveGearState = true;
-		DriveGearboxShifter.set(DoubleSolenoid.Value.kReverse);
-	}
-
-	public boolean getDriveGearState() {
-		return DriveGearState;
+	// ************************Encoder Functions************************
+	
+	public boolean isLeftAlive() {
+		return leftMaster.isAlive();
 	}
 	
-	public boolean getDriveMotorState() {
-		return DriveMotorState;
+	public boolean isRightAlive() {
+		return rightMaster.isAlive();
 	}
-
-	// ************************Encoder Functions************************
+	
 	public double getLeftEncoderDist() {
-		return leftDriveBack.getPosition()*12.44;// * RobotMap.ROTATIONS_TO_INCHES;
+		return leftMaster.getSelectedSensorPosition(0) * RobotMap.ROTATIONS_TO_INCHES;
 	}
 
 	public double getRightEncoderDist() {
-		return rightDriveBack.getPosition()*12.44;// * RobotMap.ROTATIONS_TO_INCHES;
+		return rightMaster.getSelectedSensorPosition(0) * RobotMap.ROTATIONS_TO_INCHES;
 	}
 
 	public double getAverageDistance() {
@@ -223,23 +170,38 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void resetEncoders() {
-//		leftDriveBack.setPosition(0);
-//		rightDriveBack.setPosition(0);
+		leftMaster.setSelectedSensorPosition(0, 0, 0);
+		rightMaster.setSelectedSensorPosition(0, 0, 0);
 	}
 
 	/************************ GYRO FUNCTIONS ************************/
 
-	/**
-	 * This function returns the YAW reading from the gyro
-	 * 
-	 * @return Returns YAW
-	 */
+	public boolean gyroConnected() {
+		return gyro.isConnected();
+	}
+	
+	public boolean gyroCalibrating() {
+		return gyro.isCalibrating();
+	}
+	
 	public double getYaw() {
 		return gyro.getAngle();
 	}
 
+	public double getPitch() {
+		return gyro.getPitch();
+	}
+	
+	public double getRoll() {
+		return gyro.getRoll();
+	}
+
 	public void resetGyro() {
 		gyro.reset();
+	}
+	
+	public double getCompassHeading() {
+		return gyro.getCompassHeading();
 	}
 	
 	public void resetPID(){

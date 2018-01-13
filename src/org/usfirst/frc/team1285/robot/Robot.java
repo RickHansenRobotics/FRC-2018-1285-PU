@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team1285.robot;
 
 import java.io.IOException;
@@ -6,13 +5,10 @@ import java.io.IOException;
 import org.usfirst.frc.team1285.robot.commands.auto.*;
 import org.usfirst.frc.team1285.robot.subsystems.*;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,28 +23,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	Preferences prefs;
 	private Command autonomousCommand;
-	public static Drivetrain drive = new Drivetrain();
-	public static Intake intake = new Intake();
+	public static Drivetrain drive;
+	public static Intake intake;
 	public static OI oi;
 //	UDP serverUDP;
 //	NetworkTable table;
 
 	public SendableChooser<Command> autoChooser;
 	private int autoNumber;
-	
-//	CameraServer server;
-//	
-//	 {server = CameraServer.getInstance();
-////		 server.setQuality(25);
-//		// the camera name (ex "cam0") can be found through the roborio web
-//		// interface
-//		
-//		server.startAutomaticCapture("cam0", 0);
-//	    }
 
-	// Command autonomousCommand;
-	// private int autoNumber;
-	// private Object autoNumber;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -56,48 +40,18 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		drive = new Drivetrain();
-
+		intake = new Intake();
+		
 		prefs = Preferences.getInstance();
 
 		autoChooser = new SendableChooser<Command>();
 
-//		autoChooser.addDefault("No Auton", new NoAuto());
-//		autoChooser.addObject("CROSS BASE", new BaseLineCross());
-//		autoChooser.addObject("GearCenter",new GearCenter());
-//		autoChooser.addObject("GearCenterBaselineRight", new GearCenterBaselineRight());
-//		autoChooser.addObject("GearCenterBaselineLeft", new GearCenterBaselineLeft());
-//		autoChooser.addObject("Turn Drive", new DriveTurn(-90,0.8,5));
-//		autoChooser.addObject("Drive Distance", new DriveDistance(48,0.8,0,3));
-//		autoChooser.addObject("GearCenterBaselineWAIT", new GearCenterWaitBaseline());
-//		autoChooser.addObject("BlueBoilerPeg", new BlueBoilerPegL ());
-//		autoChooser.addObject("RedBoilerPeg", new RedBoilerPegR ());
-//		autoChooser.addObject("BlueLoadingPeg", new BlueLoadingPegR ());
-//		autoChooser.addObject("RedLoadingPeg", new RedLoadingPegL ());
-		
-		
-//		autoChooser.addObject("RedLoadingPegNeutral", new RedLoadingPegNeutral ());
-//		autoChooser.addObject("BlueLoadingPegNeutral", new BlueLoadingPegNeutral ());
-//		autoChooser.addObject("RedBoilerPegNeutral", new RedBoilerPegNeutral ());
-//		autoChooser.addObject("BlueBoilerPegNeutral", new BlueBoilerPegNeutral ());
-//		autoChooser.addObject("TwoGear", new TwoGearCenter ());
-		
-		
-//		try{
-//			serverUDP = new UDP();
-//			serverUDP.start();
-//		} catch (IOException e){
-//			e.printStackTrace();
-//		}
-
-
-
-
 		SmartDashboard.putData("AUTO", autoChooser);
-		
-		//CameraServer.getInstance().startAutomaticCapture();
-
 	}
 
+	public void disabledInit() {
+	}
+	
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
@@ -105,7 +59,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		updateSmartDashboard();
 		autonomousCommand = autoChooser.getSelected();
 	}
 
@@ -121,8 +74,6 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		 //geartool.resetArmEncoder();
-		//autonomousCommand = new GearCenter();
 		autonomousCommand = autoChooser.getSelected();
 
 		if (autonomousCommand != null)
@@ -134,15 +85,12 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		updateSmartDashboard();
 	}
 
 	public void teleopInit() {
-		// Robot.drive.shiftLow();
 		drive.reset();
-		 //geartool.resetArmEncoder();
 		if (autonomousCommand != null)
-			((Command) autonomousCommand).cancel();
+			autonomousCommand.cancel();
 	}
 
 	/**
@@ -150,14 +98,17 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		updateSmartDashboard();
 	}
 
 	/**
 	 * This function is called periodically during test mode
 	 */
 	public void testPeriodic() {
-		LiveWindow.run();
+//		LiveWindow.run();
+	}
+	
+	public void robotPeriodic() {
+		updateSmartDashboard();
 	}
 
 	public void updateSmartDashboard() {
@@ -165,9 +116,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("GYRO YAW",drive.getYaw());
 		
 		// DRIVE ENCODERS
-		SmartDashboard.putNumber("LEFT DRIVE ENCODER", drive.getLeftEncoderDist());
-		SmartDashboard.putNumber("RIGHT DRIVE ENCODER", drive.getRightEncoderDist());
-		SmartDashboard.putNumber("AVERAGE DRIVE ENCODER", drive.getAverageDistance());
+//		SmartDashboard.putNumber("LEFT DRIVE ENCODER", drive.getLeftEncoderDist());
+//		SmartDashboard.putNumber("RIGHT DRIVE ENCODER", drive.getRightEncoderDist());
+//		SmartDashboard.putNumber("AVERAGE DRIVE ENCODER", drive.getAverageDistance());
 		 
 		//Drive Preferences
 		SmartDashboard.putNumber("pDrive", NumberConstants.pDrive);

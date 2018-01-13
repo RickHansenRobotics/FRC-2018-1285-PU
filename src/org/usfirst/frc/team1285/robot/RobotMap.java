@@ -60,6 +60,9 @@ public class RobotMap {
 	public static final double driveGearRatio = 1/1; //ratio between wheel and encoder
 	public static final double ROTATIONS_TO_INCHES 	= (2*Math.PI*driveWheelRadius*driveGearRatio);
 	
+	public static final boolean leftInverted = false;
+	public static final boolean rightInverted = false;
+	
 	//**************************************************************************
     //********************* INTAKE ENCODER CONSTANTS ***************************
 	//**************************************************************************
