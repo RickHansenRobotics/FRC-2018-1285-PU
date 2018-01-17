@@ -31,14 +31,6 @@ public class TankDrive extends Command {
 	 */
 	protected void execute() {		
 		// Runs drive at jotstick input, if right bumper is pressed drive speed is halved
-		if(Robot.oi.getDriveRightBumper()) {
-			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY()*0.5);
-			Robot.drive.runRightDrive(Robot.oi.getDriveRightY()*0.5);
-		}
-		else {
-			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY());
-			Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
-		}
 	}
 	
 	// isFinished() always returns false, as we don't want TankDrive to stop by default

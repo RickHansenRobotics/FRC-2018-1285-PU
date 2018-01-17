@@ -28,13 +28,6 @@ public class IntakeCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		// Runs intake motors using the gamepad
-		if (Robot.oi.getToolAButton()) {
-//			Robot.intake.runIntake(1);
-		} else if (Robot.oi.getToolXButton()) {
-//			Robot.intake.runIntake(-1);
-		} else {
-//			Robot.intake.runIntake(0);
-		}
 	}
 
 	// Set to false to make sure command does not end

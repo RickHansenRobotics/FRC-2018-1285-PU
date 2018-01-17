@@ -175,37 +175,4 @@ public class Drivetrain extends Subsystem {
 	}
 
 	/************************ GYRO FUNCTIONS ************************/
-
-	public boolean gyroConnected() {
-		return gyro.isConnected();
-	}
-	
-	public boolean gyroCalibrating() {
-		return gyro.isCalibrating();
-	}
-	
-	public double getYaw() {
-		return gyro.getAngle();
-	}
-
-	public double getPitch() {
-		return gyro.getPitch();
-	}
-	
-	public double getRoll() {
-		return gyro.getRoll();
-	}
-
-	public void resetGyro() {
-		gyro.reset();
-	}
-	
-	public double getCompassHeading() {
-		return gyro.getCompassHeading();
-	}
-	
-	public void resetPID(){
-		drivePID.resetPID();
-		gyroPID.resetPID();
-	}
 }
