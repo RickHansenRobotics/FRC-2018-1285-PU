@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -24,11 +25,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Drivetrain extends Subsystem {
 
-	private WPI_TalonSRX leftFollower;
+	private WPI_VictorSPX leftBackFollower;
+	private WPI_VictorSPX leftMiddleFollower;
 	private WPI_TalonSRX leftMaster;
-
-	private WPI_TalonSRX rightFollower;
+	
+	private WPI_VictorSPX rightBackFollower;
+	private WPI_VictorSPX rightMiddleFollower;
 	private WPI_TalonSRX rightMaster;
+	
+	
 
 	//ADXRS450_Gyro gyro;
 	AHRS gyro;
@@ -55,23 +60,31 @@ public class Drivetrain extends Subsystem {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 		}
 		
-		// left back
-		leftMaster = new WPI_TalonSRX(RobotMap.LEFT_DRIVE_BACK);
+		// left front
+		leftMaster = new WPI_TalonSRX(RobotMap.LEFT_DRIVE_FRONT);
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		leftMaster.setInverted(RobotMap.leftInverted);
 		
-		// left front
-		leftFollower = new WPI_TalonSRX(RobotMap.LEFT_DRIVE_FRONT);
-		leftFollower.set(ControlMode.Follower, RobotMap.LEFT_DRIVE_BACK);
+		//left middle
+		leftMiddleFollower = new WPI_VictorSPX(RobotMap.LEFT_DRIVE_MIDDLE);
+		leftMiddleFollower.set(ControlMode.Follower, RobotMap.LEFT_DRIVE_FRONT);
+				
+		// left back
+		leftBackFollower = new WPI_VictorSPX(RobotMap.LEFT_DRIVE_BACK);
+		leftBackFollower.set(ControlMode.Follower, RobotMap.LEFT_DRIVE_FRONT);
 
 		// right back
-		rightMaster = new WPI_TalonSRX(RobotMap.LEFT_DRIVE_BACK);
+		rightMaster = new WPI_TalonSRX(RobotMap.RIGHT_DRIVE_BACK);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		rightMaster.setInverted(RobotMap.rightInverted);
 		
-		// right front
-		rightFollower = new WPI_TalonSRX(RobotMap.RIGHT_DRIVE_FRONT);
-		rightFollower.set(ControlMode.Follower, RobotMap.LEFT_DRIVE_BACK);
+		// right middle
+		rightMiddleFollower = new WPI_VictorSPX(RobotMap.RIGHT_DRIVE_BACK);
+		rightMiddleFollower.set(ControlMode.Follower, RobotMap.RIGHT_DRIVE_FRONT);
+		
+		// right middle
+		rightMiddleFollower = new WPI_VictorSPX(RobotMap.RIGHT_DRIVE_MIDDLE);
+		rightMiddleFollower.set(ControlMode.Follower, RobotMap.RIGHT_DRIVE_FRONT);
 		
 		drivePID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 		gyroPID = new PIDController(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
@@ -173,6 +186,30 @@ public class Drivetrain extends Subsystem {
 		leftMaster.setSelectedSensorPosition(0, 0, 0);
 		rightMaster.setSelectedSensorPosition(0, 0, 0);
 	}
-
+	
 	/************************ GYRO FUNCTIONS ************************/
-}
+	
+	public boolean gyroConnected() {
+		    return gyro.isConnected();
+	}
+	
+	public boolean gyroCalibrating() {
+		   return gyro.isCalibrating()
+	}
+	
+	public double getYaw()
+	       return gyro.getAngle() {
+	}
+	
+	public void resetGyro() { 
+		     gyro.reset();
+	}
+	
+	public double getCompassHeading() {
+		   return gyro.getCompassheading();
+	}
+	
+	public void resetPID(){
+		   drivePID.resetPID();
+		   gyroPID.resetPID();
+	}

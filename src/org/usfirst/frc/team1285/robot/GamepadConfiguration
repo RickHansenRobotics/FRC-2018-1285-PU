@@ -1,8 +1,8 @@
 Drive Controller						Manual				Automatic
-X_BUTTON                        =	Auto DrawBridge
-A_BUTTON                        =	Auto Portcullis
-B_BUTTON                        =	Auto Cheval
-Y_BUTTON                        =	Auto SallyPort
+X_BUTTON                        =	
+A_BUTTON                        =	
+B_BUTTON                        =	
+Y_BUTTON                        =	
 LEFT_BUMPER                     =	
 RIGHT_BUMPER                    =	
 LEFT_TRIGGER                    =	50% Drive speed
@@ -22,22 +22,22 @@ DPAD_Y							=
 
 
 Tool Controller							Manual					Automatic
-X_BUTTON                        =	outtake
-A_BUTTON                        =	intake
-B_BUTTON                        =	holder toggle
-Y_BUTTON                        =	turret toggle
-LEFT_BUMPER                     =	badderShot rev up
-RIGHT_BUMPER                    =	stop rev up
-LEFT_TRIGGER                    =	spyShot rev up
-RIGHT_TRIGGER                   =	shoot sequence
+X_BUTTON                        =	ScaleTop position
+A_BUTTON                        =	Ground position
+B_BUTTON                        =	Switch position
+Y_BUTTON                        =	ScaleMiddle position
+LEFT_BUMPER                     =	Clamp (hold)
+RIGHT_BUMPER                    =	intake
+LEFT_TRIGGER                    =	intake drop (toggle)
+RIGHT_TRIGGER                   =	outtake
 BACK_BUTTON                     =	
-START_BUTTON                    =	
+START_BUTTON                    =	hang position
 LEFT_ANALOG_BUTTON              =	
 RIGHT_ANALOG_BUTTON             =	
    
 LEFT_ANALOG_X                   =	
-LEFT_ANALOG_Y                   =	Move intake arms
+LEFT_ANALOG_Y                   =	
 RIGHT_ANALOG_X                  =	
-RIGHT_ANALOG_Y                  =	
+RIGHT_ANALOG_Y                  =	Elevator vertically
 DPAD_X                          =	
 DPAD_Y							=	
