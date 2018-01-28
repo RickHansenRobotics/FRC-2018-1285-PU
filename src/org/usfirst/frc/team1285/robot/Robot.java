@@ -25,6 +25,7 @@ public class Robot extends IterativeRobot {
 	private Command autonomousCommand;
 	public static Drivetrain drive;
 	public static Intake intake;
+	public static Elevator elev;
 	public static OI oi;
 //	UDP serverUDP;
 //	NetworkTable table;
@@ -41,6 +42,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		drive = new Drivetrain();
 		intake = new Intake();
+		elev = new Elevator();
 		
 		prefs = Preferences.getInstance();
 

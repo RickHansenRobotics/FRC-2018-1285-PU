@@ -171,11 +171,11 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public double getLeftEncoderDist() {
-		return leftMaster.getSelectedSensorPosition(0) * RobotMap.ROTATIONS_TO_INCHES;
+		return leftMaster.getSelectedSensorPosition(0) * RobotMap.DRIVE_ROTATIONS_TO_INCHES;
 	}
 
 	public double getRightEncoderDist() {
-		return rightMaster.getSelectedSensorPosition(0) * RobotMap.ROTATIONS_TO_INCHES;
+		return rightMaster.getSelectedSensorPosition(0) * RobotMap.DRIVE_ROTATIONS_TO_INCHES;
 	}
 
 	public double getAverageDistance() {
