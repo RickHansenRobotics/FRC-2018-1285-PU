@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1285.robot.commands;
 
 import org.usfirst.frc.team1285.robot.Robot;
+import org.usfirst.frc.team1285.robot.utilities.ToggleBoolean;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,9 +17,13 @@ public class IntakeCommand extends Command {
 	/**
 	 * Instantiates a new intake command.
 	 */
+	
+	private ToggleBoolean pivotState;
+	
 	public IntakeCommand() {
 		// Makes sure no other intake commands are running at the same time
 		requires(Robot.intake);
+		pivotState = new ToggleBoolean();
 	}
 
 	// Called just before this Command runs the first time
@@ -30,8 +35,21 @@ public class IntakeCommand extends Command {
 		if (Robot.oi.getToolRightBumper()) {
 			Robot.intake.intake();
 		}
-		if (Robot.oi.getToolRightTrigger()){
+		else if (Robot.oi.getToolLeftBumper()){
 			Robot.intake.outtake();
+		}
+		else if (Robot.oi.getToolRightTrigger()) {
+			Robot.intake.openClamp();
+		}
+		else {
+			Robot.intake.closeClamp();
+		}
+		pivotState.set(Robot.oi.getToolLeftTrigger());
+		if(pivotState.get()) {
+			Robot.intake.pivotUp();
+		}
+		else {
+			Robot.intake.pivotDown();
 		}
 	}
 
