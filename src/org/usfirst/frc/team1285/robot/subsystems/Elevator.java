@@ -49,6 +49,7 @@ public class Elevator extends Subsystem {
     
     public void runElevator(double pwmVal) {
     	leftElevator.set(NumberConstants.elev_kforward + pwmVal);
+    	rightElevator.set(NumberConstants.elev_kforward + pwmVal);
     }
     
     public double getDistance(){

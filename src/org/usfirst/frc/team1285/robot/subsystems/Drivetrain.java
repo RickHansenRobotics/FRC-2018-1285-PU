@@ -67,24 +67,24 @@ public class Drivetrain extends Subsystem {
 		
 		//left middle
 		leftMiddleFollower = new WPI_VictorSPX(RobotMap.LEFT_DRIVE_MIDDLE);
-		leftMiddleFollower.set(ControlMode.Follower, RobotMap.LEFT_DRIVE_FRONT);
+		leftMiddleFollower.follow(leftMaster);
 				
 		// left back
 		leftBackFollower = new WPI_VictorSPX(RobotMap.LEFT_DRIVE_BACK);
-		leftBackFollower.set(ControlMode.Follower, RobotMap.LEFT_DRIVE_FRONT);
+		leftBackFollower.follow(leftMaster);
 
 		// right back
-		rightMaster = new WPI_TalonSRX(RobotMap.RIGHT_DRIVE_BACK);
+		rightMaster = new WPI_TalonSRX(RobotMap.RIGHT_DRIVE_FRONT);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		rightMaster.setInverted(RobotMap.rightInverted);
 		
 		// right middle
-		rightMiddleFollower = new WPI_VictorSPX(RobotMap.RIGHT_DRIVE_BACK);
-		rightMiddleFollower.set(ControlMode.Follower, RobotMap.RIGHT_DRIVE_FRONT);
+		rightMiddleFollower = new WPI_VictorSPX(RobotMap.RIGHT_DRIVE_MIDDLE);
+		rightMiddleFollower.follow(rightMaster);;
 		
 		// right middle
-		rightMiddleFollower = new WPI_VictorSPX(RobotMap.RIGHT_DRIVE_MIDDLE);
-		rightMiddleFollower.set(ControlMode.Follower, RobotMap.RIGHT_DRIVE_FRONT);
+		rightBackFollower = new WPI_VictorSPX(RobotMap.RIGHT_DRIVE_BACK);
+		rightBackFollower.follow(rightMaster);
 		
 		drivePID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
 		gyroPID = new PIDController(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
@@ -106,11 +106,15 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void runLeftDrive(double pwmVal) {
-		leftMaster.set(pwmVal);
+		leftMaster.set(ControlMode.PercentOutput, pwmVal);
+//		leftMiddleFollower.set(ControlMode.PercentOutput, pwmVal);
+//		leftBackFollower.set(ControlMode.PercentOutput, pwmVal);
 	}
 
 	public void runRightDrive(double pwmVal) {
-		rightMaster.set(pwmVal);
+		rightMaster.set(ControlMode.PercentOutput, pwmVal);
+//		rightMiddleFollower.set(ControlMode.PercentOutput, pwmVal);
+//		rightBackFollower.set(ControlMode.PercentOutput, pwmVal);
 	}
 	
 	public void turnDrive(double setAngle, double speed) {

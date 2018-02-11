@@ -51,6 +51,11 @@ public class Intake extends Subsystem {
     	leftIntakeMotor.set(-1);
     }
     
+    public void runIntake(double input) {
+    	leftIntakeMotor.set(input);
+    	rightIntakeMotor.set(input);
+    }
+    
     public void openClamp() {
     	intakeClamp.set(DoubleSolenoid.Value.kForward);
     }

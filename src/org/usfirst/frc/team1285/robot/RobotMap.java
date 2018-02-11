@@ -11,20 +11,20 @@ public class RobotMap {
 	//*****************************DRIVE MOTORS*********************************
 	//**************************************************************************        
 	
-	public static final int RIGHT_DRIVE_FRONT                               = 6; 
+	public static final int RIGHT_DRIVE_FRONT                               = 8; 
 	public static final int RIGHT_DRIVE_MIDDLE 								= 7;
-	public static final int RIGHT_DRIVE_BACK                                = 8;
+	public static final int RIGHT_DRIVE_BACK                                = 6;
 	
 	public static final int LEFT_DRIVE_FRONT                                = 1;
-	public static final int LEFT_DRIVE_MIDDLE                               = 2;
-	public static final int LEFT_DRIVE_BACK                                 = 3;
+	public static final int LEFT_DRIVE_MIDDLE                               = 4;
+	public static final int LEFT_DRIVE_BACK                                 = 5;
 
 	//**************************************************************************
 	//******************************* INTAKE ***********************************
 	//**************************************************************************        
 		
-	public static final int RIGHT_INTAKE                                    = 5;
-	public static final int LEFT_INTAKE                                     = 4;
+	public static final int RIGHT_INTAKE                                    = 2;
+	public static final int LEFT_INTAKE                                     = 3;
 	
 	//**************************************************************************
 	//******************************* Elevator ***********************************
@@ -53,15 +53,15 @@ public class RobotMap {
 	public static final double driveGearRatio = 1/1; //ratio between wheel and encoder
 	public static final double DRIVE_ROTATIONS_TO_INCHES 	= (2*Math.PI*driveWheelRadius*driveGearRatio);
 	
-	public static final boolean leftInverted = false;
+	public static final boolean leftInverted = true;
 	public static final boolean rightInverted = false;
 	
 	//**************************************************************************
     //********************* INTAKE ENCODER CONSTANTS ***************************
 	//**************************************************************************
 	
-	public static final boolean leftIntakeInverted = false;
-	public static final boolean rightIntakeInverted = true;
+	public static final boolean leftIntakeInverted = true;
+	public static final boolean rightIntakeInverted = false;
 	
 	//**************************************************************************
     //********************* Elevator ENCODER CONSTANTS ***************************

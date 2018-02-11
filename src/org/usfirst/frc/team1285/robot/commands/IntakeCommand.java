@@ -38,7 +38,7 @@ public class IntakeCommand extends Command {
 		else if (Robot.oi.getToolLeftBumper()){
 			Robot.intake.outtake();
 		}
-		else if(Robot.oi.getToolRightBumper()) {
+		else if(Robot.oi.getToolLeftTrigger()) {
 			Robot.intake.leftIntake();
 		}
 		else if (Robot.oi.getToolRightTrigger()) {
@@ -46,6 +46,7 @@ public class IntakeCommand extends Command {
 		}
 		else {
 			Robot.intake.closeClamp();
+			Robot.intake.runIntake(0);
 		}
 		pivotState.set(Robot.oi.getToolLeftTrigger());
 		if(pivotState.get()) {
