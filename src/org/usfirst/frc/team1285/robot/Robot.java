@@ -117,6 +117,8 @@ public class Robot extends IterativeRobot {
 		//gyro Yaw value 
 		SmartDashboard.putNumber("GYRO YAW",drive.getYaw());
 		
+		SmartDashboard.putNumber("joystick", oi.getToolRightY());
+		
 		// DRIVE ENCODERS
 //		SmartDashboard.putNumber("LEFT DRIVE ENCODER", drive.getLeftEncoderDist());
 //		SmartDashboard.putNumber("RIGHT DRIVE ENCODER", drive.getRightEncoderDist());
@@ -131,5 +133,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("pGyro", NumberConstants.pGyro);
 		SmartDashboard.putNumber("iGyro", NumberConstants.iGyro);
 		SmartDashboard.putNumber("dGyro", NumberConstants.dGyro);
+		
+		//Elevator
+		SmartDashboard.putBoolean("Grounded", elev.isGrounded());
 	}
 }

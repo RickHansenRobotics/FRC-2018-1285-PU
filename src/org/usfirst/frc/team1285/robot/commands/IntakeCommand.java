@@ -38,6 +38,9 @@ public class IntakeCommand extends Command {
 		else if (Robot.oi.getToolLeftBumper()){
 			Robot.intake.outtake();
 		}
+		else if(Robot.oi.getToolRightBumper()) {
+			Robot.intake.leftIntake();
+		}
 		else if (Robot.oi.getToolRightTrigger()) {
 			Robot.intake.openClamp();
 		}

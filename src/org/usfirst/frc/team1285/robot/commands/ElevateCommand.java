@@ -21,24 +21,24 @@ public class ElevateCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!(Robot.elev.isGrounded() && Robot.oi.getToolRightY() < 0)) {
+//    	if(!(Robot.elev.isGrounded() && Robot.oi.getToolRightY() < 0)) {
     		Robot.elev.runElevator(Robot.oi.getToolRightY());
-    	}
-    	if(Robot.oi.getToolAButton()) {
-    		Robot.elev.setPosition(NumberConstants.GROUND, 1, 1);
-    	}
-    	else if (Robot.oi.getToolBButton()){
-    		Robot.elev.setPosition(NumberConstants.SWITCH, 1, 1);
-    	}
-    	else if (Robot.oi.getToolYButton()) {
-    		Robot.elev.setPosition(NumberConstants.SCALE_MIDDLE, 1, 1);
-    	}
-    	else if (Robot.oi.getToolXButton()){
-    		Robot.elev.setPosition(NumberConstants.SCALE_TOP, 1, 1);
-    	}
-    	else if (Robot.oi.getToolStartButton()){
-    		Robot.elev.setPosition(NumberConstants.HANG, 1, 1);
-    	}
+//    	}
+//    	if(Robot.oi.getToolAButton()) {
+//    		Robot.elev.setPosition(NumberConstants.GROUND, 1, 1);
+//    	}
+//    	else if (Robot.oi.getToolBButton()){
+//    		Robot.elev.setPosition(NumberConstants.SWITCH, 1, 1);
+//    	}
+//    	else if (Robot.oi.getToolYButton()) {
+//    		Robot.elev.setPosition(NumberConstants.SCALE_MIDDLE, 1, 1);
+//    	}
+//    	else if (Robot.oi.getToolXButton()){
+//    		Robot.elev.setPosition(NumberConstants.SCALE_TOP, 1, 1);
+//    	}
+//    	else if (Robot.oi.getToolStartButton()){
+//    		Robot.elev.setPosition(NumberConstants.HANG, 1, 1);
+//    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

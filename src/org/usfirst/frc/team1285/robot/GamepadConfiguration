@@ -5,7 +5,7 @@ B_BUTTON                        =
 Y_BUTTON                        =	
 LEFT_BUMPER                     =	
 RIGHT_BUMPER                    =	
-LEFT_TRIGGER                    =	50% Drive speed
+LEFT_TRIGGER                    =	50% Drive power
 RIGHT_TRIGGER                   =	
 BACK_BUTTON                     =	
 START_BUTTON                    =	
@@ -31,7 +31,7 @@ RIGHT_BUMPER                    =	intake
 LEFT_TRIGGER                    =	intake drop (toggle)
 RIGHT_TRIGGER                   =	Clamp (hold)
 BACK_BUTTON                     =	
-START_BUTTON                    =	hang position
+START_BUTTON                    =	
 LEFT_ANALOG_BUTTON              =	
 RIGHT_ANALOG_BUTTON             =	
    
@@ -39,5 +39,6 @@ LEFT_ANALOG_X                   =
 LEFT_ANALOG_Y                   =	
 RIGHT_ANALOG_X                  =	
 RIGHT_ANALOG_Y                  =	Elevator vertically
-DPAD_X                          =	
-DPAD_Y							=	
+DPAD_X                          =	hang position
+DPAD_Y							=	Intake One side
+

@@ -22,6 +22,8 @@ public class NumberConstants {
 	public static double speedScale = 1;
 	
 	//Elevator Constants
+	public static double elev_kforward = -0.1625;
+	
 	public static double HANG 			= 120;
 	public static double SCALE_TOP 		= 100;
 	public static double SCALE_MIDDLE 	= 90;

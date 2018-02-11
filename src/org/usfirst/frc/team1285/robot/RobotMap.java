@@ -11,27 +11,27 @@ public class RobotMap {
 	//*****************************DRIVE MOTORS*********************************
 	//**************************************************************************        
 	
-	public static final int RIGHT_DRIVE_FRONT                               = 2; 
-	public static final int RIGHT_DRIVE_MIDDLE 								= 6;
-	public static final int RIGHT_DRIVE_BACK                                = 3;
+	public static final int RIGHT_DRIVE_FRONT                               = 6; 
+	public static final int RIGHT_DRIVE_MIDDLE 								= 7;
+	public static final int RIGHT_DRIVE_BACK                                = 8;
 	
 	public static final int LEFT_DRIVE_FRONT                                = 1;
-	public static final int LEFT_DRIVE_MIDDLE                               = 5;
-	public static final int LEFT_DRIVE_BACK                                 = 4;
+	public static final int LEFT_DRIVE_MIDDLE                               = 2;
+	public static final int LEFT_DRIVE_BACK                                 = 3;
 
 	//**************************************************************************
 	//******************************* INTAKE ***********************************
 	//**************************************************************************        
 		
-	public static final int RIGHT_INTAKE                                    = 7;
-	public static final int LEFT_INTAKE                                     = 8;
+	public static final int RIGHT_INTAKE                                    = 5;
+	public static final int LEFT_INTAKE                                     = 4;
 	
 	//**************************************************************************
 	//******************************* Elevator ***********************************
 	//**************************************************************************        
 		
-	public static final int RIGHT_ELEVATOR                                   = 5; 
-	public static final int LEFT_ELEVATOR                                    = 6;
+	public static final int RIGHT_ELEVATOR                                   = 9; 
+	public static final int LEFT_ELEVATOR                                    = 10;
 	
 	public static final int LEFT_BUMPER_SWITCH								 = 1;
 	public static final int RIGHT_BUMPER_SWITCH								 = 2;

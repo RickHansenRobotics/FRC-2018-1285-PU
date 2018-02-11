@@ -194,11 +194,11 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public boolean gyroCalibrating() {
-		   return gyro.isCalibrating()
+		   return gyro.isCalibrating();
 	}
 	
-	public double getYaw()
-	       return gyro.getAngle() {
+	public double getYaw() {
+	       return gyro.getAngle();
 	}
 	
 	public void resetGyro() { 
@@ -206,10 +206,11 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public double getCompassHeading() {
-		   return gyro.getCompassheading();
+		   return gyro.getCompassHeading();
 	}
 	
 	public void resetPID(){
 		   drivePID.resetPID();
 		   gyroPID.resetPID();
 	}
+}

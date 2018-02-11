@@ -29,11 +29,13 @@ public class Elevator extends Subsystem {
 	public PIDController elevPID;
 	
 	public Elevator() {
-		rightElevator = new WPI_VictorSPX(RobotMap.RIGHT_ELEVATOR);
 	    leftElevator = new WPI_TalonSRX (RobotMap.LEFT_ELEVATOR);
 	    leftElevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-	    rightElevator.set(ControlMode.Follower, RobotMap.LEFT_ELEVATOR);
+	    leftElevator.setInverted(false);
 	    
+	    rightElevator = new WPI_VictorSPX(RobotMap.RIGHT_ELEVATOR);
+	    rightElevator.set(ControlMode.Follower, RobotMap.LEFT_ELEVATOR);
+	    rightElevator.setInverted(true);
 	    
 	    elevPID = new PIDController(NumberConstants.pElev, NumberConstants.iElev, NumberConstants.dElev);
 	    leftSwitch = new DigitalInput(RobotMap.LEFT_BUMPER_SWITCH);
@@ -46,8 +48,7 @@ public class Elevator extends Subsystem {
     }
     
     public void runElevator(double pwmVal) {
-    	rightElevator.set(pwmVal);
-    	leftElevator.set(pwmVal);
+    	leftElevator.set(NumberConstants.elev_kforward + pwmVal);
     }
     
     public double getDistance(){
