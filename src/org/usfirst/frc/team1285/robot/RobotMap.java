@@ -40,17 +40,17 @@ public class RobotMap {
 	//*************************** PNEUMATICS ***********************************
 	//**************************************************************************
 	//Clamps
-	public static final int CLAMP_SOLENOID_A								= 1;
+	public static final int CLAMP_SOLENOID_A								= 2;
 	public static final int CLAMP_SOLENOID_B							 	= 0;
 	//Pivot
-	public static final int PIVOT_SOLENOID_A							 	= 2;
-	public static final int PIVOT_SOLENOID_B							 	= 3;
+	public static final int PIVOT_SOLENOID_A							 	= 4;
+	public static final int PIVOT_SOLENOID_B							 	= 6;
 	
 	//**************************************************************************
     //********************* DRIVE ENCODER CONSTANTS ****************************
 	//**************************************************************************
-	public static final int driveWheelRadius = 2;//wheel radius in inches
-	public static final double driveGearRatio = 1/1; //ratio between wheel and encoder
+	public static final int driveWheelRadius = 3;//wheel radius in inches
+	public static final double driveGearRatio = 7.5; //ratio between wheel and encoder
 	public static final double DRIVE_ROTATIONS_TO_INCHES 	= (2*Math.PI*driveWheelRadius*driveGearRatio);
 	
 	public static final boolean leftInverted = true;
@@ -60,8 +60,8 @@ public class RobotMap {
     //********************* INTAKE ENCODER CONSTANTS ***************************
 	//**************************************************************************
 	
-	public static final boolean leftIntakeInverted = true;
-	public static final boolean rightIntakeInverted = false;
+	public static final boolean leftIntakeInverted = false;
+	public static final boolean rightIntakeInverted = true;
 	
 	//**************************************************************************
     //********************* Elevator ENCODER CONSTANTS ***************************

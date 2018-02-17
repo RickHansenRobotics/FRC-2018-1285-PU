@@ -34,12 +34,18 @@ public class Elevator extends Subsystem {
 	    leftElevator.setInverted(false);
 	    
 	    rightElevator = new WPI_VictorSPX(RobotMap.RIGHT_ELEVATOR);
-	    rightElevator.set(ControlMode.Follower, RobotMap.LEFT_ELEVATOR);
 	    rightElevator.setInverted(true);
 	    
 	    elevPID = new PIDController(NumberConstants.pElev, NumberConstants.iElev, NumberConstants.dElev);
 	    leftSwitch = new DigitalInput(RobotMap.LEFT_BUMPER_SWITCH);
 	    rightSwitch = new DigitalInput(RobotMap.RIGHT_BUMPER_SWITCH);
+	    
+	    leftElevator.config_kP(0, NumberConstants.pElev, 0);
+	    leftElevator.config_kI(0, NumberConstants.iElev, 0);
+	    leftElevator.config_kD(0, NumberConstants.dElev, 0);
+	    leftElevator.config_kF(0, NumberConstants.fElev, 0);
+	    
+	    resetEncoder();
 	}
 	
     public void initDefaultCommand() {

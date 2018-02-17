@@ -15,6 +15,7 @@ public class NumberConstants {
 	public static final double pElev = 0.02;
 	public static final double iElev = 0.0;
 	public static final double dElev = 0.08;
+	public static final double fElev = 0.10;
 
 	//Drive Speed Scalar
 	public static double jukeSpeedScale = 0.85;

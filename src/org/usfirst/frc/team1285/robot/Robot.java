@@ -115,15 +115,16 @@ public class Robot extends IterativeRobot {
 
 	public void updateSmartDashboard() {
 		//gyro Yaw value 
-		SmartDashboard.putNumber("GYRO YAW",drive.getYaw());
-		
-		SmartDashboard.putNumber("joystick", oi.getToolRightY());
+		SmartDashboard.putNumber("Yaw", drive.getYaw());
+		SmartDashboard.putNumber("Roll", drive.getRoll());
+		SmartDashboard.putNumber("Pitch", drive.getPitch());
 		
 		// DRIVE ENCODERS
-//		SmartDashboard.putNumber("LEFT DRIVE ENCODER", drive.getLeftEncoderDist());
-//		SmartDashboard.putNumber("RIGHT DRIVE ENCODER", drive.getRightEncoderDist());
-//		SmartDashboard.putNumber("AVERAGE DRIVE ENCODER", drive.getAverageDistance());
-		 
+		SmartDashboard.putNumber("LEFT DRIVE ENCODER", drive.getLeftEncoderDist());
+		SmartDashboard.putNumber("RIGHT DRIVE ENCODER", drive.getRightEncoderDist());
+		SmartDashboard.putNumber("AVERAGE DRIVE ENCODER", drive.getAverageDistance());
+		SmartDashboard.putNumber("ELEV ENCODER", elev.getDistance()); 
+		
 		//Drive Preferences
 		SmartDashboard.putNumber("pDrive", NumberConstants.pDrive);
 		SmartDashboard.putNumber("iDrive", NumberConstants.iDrive);

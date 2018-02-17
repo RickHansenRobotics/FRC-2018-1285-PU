@@ -67,10 +67,12 @@ public class Drivetrain extends Subsystem {
 		
 		//left middle
 		leftMiddleFollower = new WPI_VictorSPX(RobotMap.LEFT_DRIVE_MIDDLE);
+		leftMiddleFollower.setInverted(RobotMap.leftInverted);
 		leftMiddleFollower.follow(leftMaster);
 				
 		// left back
 		leftBackFollower = new WPI_VictorSPX(RobotMap.LEFT_DRIVE_BACK);
+		leftBackFollower.setInverted(RobotMap.leftInverted);
 		leftBackFollower.follow(leftMaster);
 
 		// right back
@@ -80,10 +82,12 @@ public class Drivetrain extends Subsystem {
 		
 		// right middle
 		rightMiddleFollower = new WPI_VictorSPX(RobotMap.RIGHT_DRIVE_MIDDLE);
+		rightMiddleFollower.setInverted(RobotMap.rightInverted);
 		rightMiddleFollower.follow(rightMaster);;
 		
 		// right middle
 		rightBackFollower = new WPI_VictorSPX(RobotMap.RIGHT_DRIVE_BACK);
+		rightBackFollower.setInverted(RobotMap.rightInverted);
 		rightBackFollower.follow(rightMaster);
 		
 		drivePID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
@@ -93,12 +97,7 @@ public class Drivetrain extends Subsystem {
 		leftMaster.setNeutralMode(NeutralMode.Brake);
 		rightMaster.setNeutralMode(NeutralMode.Brake);
 		
-		
-		//gyro = new ADXRS450_Gyro();
-//		@SuppressWarnings("unused")
-//		double driveCurrentDraw[] = new double[] { leftDriveBack.getOutputCurrent(),
-//				//leftDriveFront.getOutputCurrent(), rightDriveBack.getOutputCurrent(),
-//				rightDriveFront.getOutputCurrent() };
+		reset();
 	}
 
 	public void initDefaultCommand() {
@@ -107,14 +106,10 @@ public class Drivetrain extends Subsystem {
 	
 	public void runLeftDrive(double pwmVal) {
 		leftMaster.set(ControlMode.PercentOutput, pwmVal);
-//		leftMiddleFollower.set(ControlMode.PercentOutput, pwmVal);
-//		leftBackFollower.set(ControlMode.PercentOutput, pwmVal);
 	}
 
 	public void runRightDrive(double pwmVal) {
 		rightMaster.set(ControlMode.PercentOutput, pwmVal);
-//		rightMiddleFollower.set(ControlMode.PercentOutput, pwmVal);
-//		rightBackFollower.set(ControlMode.PercentOutput, pwmVal);
 	}
 	
 	public void turnDrive(double setAngle, double speed) {
@@ -159,11 +154,6 @@ public class Drivetrain extends Subsystem {
 		return drivePID.isDone();
 	}
 
-	public void reset() {
-		resetEncoders();
-		resetGyro();
-	}
-
 	// ************************Encoder Functions************************
 	
 	public boolean isLeftAlive() {
@@ -194,27 +184,40 @@ public class Drivetrain extends Subsystem {
 	/************************ GYRO FUNCTIONS ************************/
 	
 	public boolean gyroConnected() {
-		    return gyro.isConnected();
+	    return gyro.isConnected();
 	}
 	
 	public boolean gyroCalibrating() {
-		   return gyro.isCalibrating();
+	   return gyro.isCalibrating();
 	}
 	
 	public double getYaw() {
 	       return gyro.getAngle();
 	}
 	
+	public double getRoll() {
+		return gyro.getRoll();
+	}
+	
+	public double getPitch() {
+		return gyro.getPitch();
+	}
+	
 	public void resetGyro() { 
-		     gyro.reset();
+	     gyro.reset();
 	}
 	
 	public double getCompassHeading() {
-		   return gyro.getCompassHeading();
+		return gyro.getCompassHeading();
 	}
 	
 	public void resetPID(){
-		   drivePID.resetPID();
-		   gyroPID.resetPID();
+	   drivePID.resetPID();
+	   gyroPID.resetPID();
+	}
+	
+	public void reset() {
+		resetEncoders();
+		resetGyro();
 	}
 }
