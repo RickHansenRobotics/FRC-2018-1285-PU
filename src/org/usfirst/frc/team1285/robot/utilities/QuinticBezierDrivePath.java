@@ -1,18 +1,14 @@
-package org.usfirst.frc.team1285.robot.commands.auto;
+package org.usfirst.frc.team1285.robot.utilities;
 
-import org.usfirst.frc.team1285.robot.NumberConstants;
 import org.usfirst.frc.team1285.robot.Robot;
-import org.usfirst.frc.team1285.robot.utilities.BezierCurve;
-import org.usfirst.frc.team1285.robot.utilities.Point;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Command used to allow robot to travel a path generated using Bezier curves
+ * Command used to allow robot to travel a path generated using Quintic Bezier curves
  * 
- * @author Mahrus Kazi
  */
-public class DrivePath extends Command {
+public class QuinticBezierDrivePath extends Command {
 
 	// Create a Bezier curve object
 	private BezierCurve curve;
@@ -33,18 +29,23 @@ public class DrivePath extends Command {
 	 *            The control point 1
 	 * @param controlPoint2
 	 *            The control point 2
+	 *  @param controlPoint1
+	 *            The control point 3
+	 * @param controlPoint2
+	 *            The control point 4
 	 * @param endPoint
 	 *            The end point
+	 * @param size
+	 *            The total number of points/segments
 	 * @param timeOut
 	 *            The time out in seconds
 	 * @param speed
 	 *            The speed the robot will travel at (0.0 - 1.0)
 	 */
-	public DrivePath(Point startPoint, Point controlPoint1,
-				     Point controlPoint2, Point endPoint, 
-				     double timeOut, double speed) {
+	public QuinticBezierDrivePath(Point startPoint, Point controlPoint1, Point controlPoint2,Point controlPoint3,Point controlPoint4, Point endPoint, int size, double segmentStep, double timeOut,
+			double speed) {
 
-		this(startPoint, controlPoint1, controlPoint2, endPoint, timeOut, speed, false);
+		this(startPoint, controlPoint1, controlPoint2, controlPoint3, controlPoint4, endPoint, size, segmentStep, timeOut, speed, false);
 	}
 
 	/**
@@ -56,8 +57,14 @@ public class DrivePath extends Command {
 	 *            The control point 1
 	 * @param controlPoint2
 	 *            The control point 2
+	 * @param controlPoint1
+	 *            The control point 3
+	 * @param controlPoint2
+	 *            The control point 4
 	 * @param endPoint
 	 *            The end point
+	 * @param size
+	 *            The total number of points/segments
 	 * @param timeOut
 	 *            The time out in seconds
 	 * @param speed
@@ -65,10 +72,10 @@ public class DrivePath extends Command {
 	 * @param reverse
 	 *            True if robot will traverse path in reverse, otherwise false
 	 */
-	public DrivePath(Point startPoint, Point controlPoint1, Point controlPoint2, Point endPoint, double timeOut,
+	public QuinticBezierDrivePath(Point startPoint, Point controlPoint1, Point controlPoint2,Point controlPoint3,Point controlPoint4, Point endPoint, int size, double segmentStep, double timeOut,
 			double speed, boolean reverse) {
 
-		curve = new BezierCurve(startPoint, controlPoint1, controlPoint2, endPoint);
+		curve = new BezierCurve(startPoint, controlPoint1, controlPoint2,controlPoint3, controlPoint4, endPoint, size, segmentStep);
 		distance = curve.findArcLength();
 		this.timeOut = timeOut;
 		this.speed = speed;
@@ -80,9 +87,7 @@ public class DrivePath extends Command {
 	protected void initialize() {
 		counter = 0;
 		setTimeout(timeOut);
-		Robot.drive.changeDriveGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-    	Robot.drive.changeGyroGains(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
-		Robot.drive.resetEncoders();
+		Robot.drive.reset();
 	}
 
 	// Give set distance for robot to travel, at each point change angle to
@@ -91,19 +96,21 @@ public class DrivePath extends Command {
 		if (reverse) {
 			if (-Robot.drive.getAverageDistance() > curve.findHypotenuse(counter) && counter <= curve.size())
 				counter++;
+
 			Robot.drive.driveSetpoint(-distance, speed, curve.findAngle(counter), 1);
 		} else {
-			if (Robot.drive.getAverageDistance() > curve.findHypotenuse(counter) && counter < curve.size()-1)
+			if (Robot.drive.getAverageDistance() > curve.findHypotenuse(counter) && counter < curve.size())
 				counter++;
-			System.out.println("Bezier Angle " + curve.findAngle(counter) + " " + distance); 	
+
 			Robot.drive.driveSetpoint(distance, speed, curve.findAngle(counter), 1);
 		}
+	
 	}
 
 	// Command is finished when average distance = total distance or command
 	// times out
 	protected boolean isFinished() {
-		return isTimedOut();
+		return Robot.drive.getAverageDistance() == distance || Robot.drive.getAverageDistance() >= distance||isTimedOut();
 	}
 
 	// At the end, stop drive motors
@@ -113,7 +120,5 @@ public class DrivePath extends Command {
 	}
 
 	protected void interrupted() {
-		Robot.drive.runLeftDrive(0);
-		Robot.drive.runRightDrive(0);
 	}
 }

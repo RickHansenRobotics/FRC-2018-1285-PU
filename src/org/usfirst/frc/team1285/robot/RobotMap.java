@@ -33,15 +33,15 @@ public class RobotMap {
 	public static final int RIGHT_ELEVATOR                                   = 9; 
 	public static final int LEFT_ELEVATOR                                    = 10;
 	
-	public static final int LEFT_BUMPER_SWITCH								 = 1;
-	public static final int RIGHT_BUMPER_SWITCH								 = 2;
+	public static final int LEFT_BUMPER_SWITCH								 = 0;
+	public static final int RIGHT_BUMPER_SWITCH								 = 9;
 	
 	//**************************************************************************
 	//*************************** PNEUMATICS ***********************************
 	//**************************************************************************
 	//Clamps
-	public static final int CLAMP_SOLENOID_A								= 2;
-	public static final int CLAMP_SOLENOID_B							 	= 0;
+	public static final int CLAMP_SOLENOID_A								= 0;
+	public static final int CLAMP_SOLENOID_B							 	= 2;
 	//Pivot
 	public static final int PIVOT_SOLENOID_A							 	= 4;
 	public static final int PIVOT_SOLENOID_B							 	= 6;
@@ -50,8 +50,9 @@ public class RobotMap {
     //********************* DRIVE ENCODER CONSTANTS ****************************
 	//**************************************************************************
 	public static final int driveWheelRadius = 3;//wheel radius in inches
-	public static final double driveGearRatio = 7.5; //ratio between wheel and encoder
+	public static final double driveGearRatio = 5.0/6.0; //ratio between wheel and encoder
 	public static final double DRIVE_ROTATIONS_TO_INCHES 	= (2*Math.PI*driveWheelRadius*driveGearRatio);
+	public static final double DRIVE_RAW_TO_INCHES = 1/350.0;
 	
 	public static final boolean leftInverted = true;
 	public static final boolean rightInverted = false;
@@ -67,10 +68,11 @@ public class RobotMap {
     //********************* Elevator ENCODER CONSTANTS ***************************
 	//**************************************************************************
 	
-	public static final int pulsesPerRev = 128; //pulses per revolution of arm
-	public static final double elevGearRatio = 1.4; //ratio between wheel and encoder
+	public static final double elevGearRatio = 3.0/8.0; //ratio between wheel and encoder
+	public static final double elevRadius = 1.79/4;
+	public static final double ticks = 1024;
 	
-	public static final double ELEV_ROTATIONS_TO_INCHES 	= (2*Math.PI*elevGearRatio);
-	
+	public static final double ELEV_ROTATIONS_TO_INCHES 	= (2*Math.PI*elevRadius*elevGearRatio);
+	public static final double ELEV_TICKS_TO_INCHES = ELEV_ROTATIONS_TO_INCHES / ticks;	
 	
 }

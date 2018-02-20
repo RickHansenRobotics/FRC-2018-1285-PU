@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1285.robot.commands;
 
 import org.usfirst.frc.team1285.robot.Robot;
+import org.usfirst.frc.team1285.robot.commands.auto.DriveTurn;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -31,8 +32,16 @@ public class TankDrive extends Command {
 	 */
 	protected void execute() {		
 		// Runs drive at jotstick input, if right bumper is pressed drive speed is halved
-		Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY());
-		Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
+		if(Robot.oi.getDriveLeftBumper()) {
+			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY());
+			Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
+		}
+		else {
+			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY()*0.6);
+			Robot.drive.runRightDrive(Robot.oi.getDriveRightY()*0.6);
+		}
+		
+		
 	}
 	
 	// isFinished() always returns false, as we don't want TankDrive to stop by default

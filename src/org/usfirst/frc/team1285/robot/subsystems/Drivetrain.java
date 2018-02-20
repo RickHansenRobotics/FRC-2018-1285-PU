@@ -94,14 +94,19 @@ public class Drivetrain extends Subsystem {
 		gyroPID = new PIDController(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
 
 //		leftMaster.setPID(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
-		leftMaster.setNeutralMode(NeutralMode.Brake);
-		rightMaster.setNeutralMode(NeutralMode.Brake);
+		leftMaster.setNeutralMode(NeutralMode.Coast);
+		rightMaster.setNeutralMode(NeutralMode.Coast);
 		
 		reset();
 	}
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new TankDrive());
+	}
+	
+	public void updatePIDs() {
+		drivePID.changePIDGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
+		gyroPID.changePIDGains(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
 	}
 	
 	public void runLeftDrive(double pwmVal) {
@@ -134,7 +139,7 @@ public class Drivetrain extends Subsystem {
 		}
 		else{	
 			runLeftDrive(-angle * speed);
-			runRightDrive(-angle * speed);
+			runRightDrive(angle * speed);
 		}
 	}
 	
@@ -145,13 +150,24 @@ public class Drivetrain extends Subsystem {
 	public void driveSetpoint(double setPoint, double speed, double setAngle, double tolerance) {
 		double output = drivePID.calcPID(setPoint, getAverageDistance(), tolerance);
 		double angle = gyroPID.calcPID(setAngle, getYaw(), tolerance);
-
-		runLeftDrive ((-output - angle) * speed);
-		runRightDrive ((output - angle) * speed);
+		System.out.println("output:" + output + "|angle:" + angle + " total:" + ((-output - angle) * speed));
+		runLeftDrive (-(output + angle) * speed);
+		runRightDrive ((-output + angle) * speed);
+		SmartDashboard.putNumber("output", output);
 	}
 	
 	public boolean drivePIDDone() {
 		return drivePID.isDone();
+	}
+	
+	public void coastMode() {
+		leftMaster.setNeutralMode(NeutralMode.Coast);
+		rightMaster.setNeutralMode(NeutralMode.Coast);
+	}
+	
+	public void brakeMode() {
+		leftMaster.setNeutralMode(NeutralMode.Brake);
+		rightMaster.setNeutralMode(NeutralMode.Brake);
 	}
 
 	// ************************Encoder Functions************************
@@ -165,12 +181,21 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public double getLeftEncoderDist() {
-		return leftMaster.getSelectedSensorPosition(0) * RobotMap.DRIVE_ROTATIONS_TO_INCHES;
+		return leftMaster.getSelectedSensorPosition(0) * RobotMap.DRIVE_RAW_TO_INCHES;
 	}
 
 	public double getRightEncoderDist() {
-		return rightMaster.getSelectedSensorPosition(0) * RobotMap.DRIVE_ROTATIONS_TO_INCHES;
+		return rightMaster.getSelectedSensorPosition(0) * RobotMap.DRIVE_RAW_TO_INCHES;
 	}
+	
+	public double getLeftEncoderRaw() {
+		return leftMaster.getSelectedSensorPosition(0);
+	}
+
+	public double getRightEncoderRaw() {
+		return rightMaster.getSelectedSensorPosition(0);
+	}
+	
 
 	public double getAverageDistance() {
 		return (getLeftEncoderDist() + getRightEncoderDist()) / 2;
@@ -219,5 +244,13 @@ public class Drivetrain extends Subsystem {
 	public void reset() {
 		resetEncoders();
 		resetGyro();
+	}
+
+	public void changeDriveGains(double pDrive, double iDrive, double dDrive) {
+		drivePID.changePIDGains(pDrive, iDrive, dDrive);
+	}
+
+	public void changeGyroGains(double pGyro, double iGyro, double dGyro) {
+		gyroPID.changePIDGains(pGyro, iGyro, dGyro);
 	}
 }

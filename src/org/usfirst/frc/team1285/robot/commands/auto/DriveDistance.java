@@ -3,6 +3,7 @@ package org.usfirst.frc.team1285.robot.commands.auto;
 import org.usfirst.frc.team1285.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class DriveDistance extends Command {
@@ -54,7 +55,6 @@ public class DriveDistance extends Command {
     	Robot.drive.runLeftDrive(0);
 		Robot.drive.runRightDrive(0);
 		Robot.drive.resetPID();
-    //	Robot.geartool.intake(1);
     	
     }
 }

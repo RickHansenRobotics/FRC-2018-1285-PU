@@ -54,13 +54,44 @@ public class Elevator extends Subsystem {
     }
     
     public void runElevator(double pwmVal) {
-    	leftElevator.set(NumberConstants.elev_kforward + pwmVal);
-    	rightElevator.set(NumberConstants.elev_kforward + pwmVal);
+    	leftElevator.set(pwmVal);
+    	rightElevator.set(pwmVal);
     }
     
-    public double getDistance(){
-		return leftElevator.getSelectedSensorPosition(0) * RobotMap.ELEV_ROTATIONS_TO_INCHES;
+    public void runMotionMagic(double setpoint) {
+		leftElevator.set(ControlMode.MotionMagic, -setpoint);
+		rightElevator.set(ControlMode.MotionMagic, setpoint);
 	}
+
+	public double getLeftMotionMagicError() {
+		return leftElevator.getClosedLoopError(0);
+	}
+
+	public double getRightMotionMagicError() {
+		return rightElevator.getClosedLoopError(0);
+	}
+	
+	public void magicMotionSetpoint(double setpoint, int cruiseVelocity, double secsToMaxSpeed) {
+
+		leftElevator.configMotionCruiseVelocity(cruiseVelocity, 0);
+		leftElevator.configMotionAcceleration((int) (NumberConstants.maxElevSpeed / secsToMaxSpeed), 0);
+
+		rightElevator.configMotionCruiseVelocity(cruiseVelocity, 0);
+		rightElevator.configMotionAcceleration((int) (NumberConstants.maxElevSpeed / secsToMaxSpeed), 0);
+		runMotionMagic(setpoint * -RobotMap.ELEV_ROTATIONS_TO_INCHES);
+	}
+    
+    public double getDistance(){
+		return leftElevator.getSelectedSensorPosition(0) * -RobotMap.ELEV_TICKS_TO_INCHES;
+	}
+    
+    public double getRawEncoder() {
+    	return leftElevator.getSelectedSensorPosition(0);
+    }
+    
+    public double getVelocity() {
+    	return leftElevator.getSelectedSensorVelocity(0);
+    }
     
     public void setPosition(double setPoint, double speed, double tolerance) {
     	double output = elevPID.calcPID(setPoint, getDistance(), tolerance);
@@ -68,7 +99,8 @@ public class Elevator extends Subsystem {
     }
     
     public boolean isGrounded(){
-    	return leftSwitch.get() || rightSwitch.get();
+    	return !(leftSwitch.get() || rightSwitch.get());
+    
     }
 	
 	public void resetEncoder (){

@@ -4,18 +4,20 @@ public class NumberConstants {
 	
 	//::::::::::::::::::::::::::::::::::::::::::PID VALUES:::::::::::::::::::::::::::::::::::::::::::::::::::::\\
 	
-	public static final double pDrive = 0.03;
-	public static final double iDrive = 0.0;
-	public static final double dDrive = 0.0;
+	public static  double pDrive = 0.0013;
+	public static  double iDrive = 0.001;
+	public static  double dDrive = 0.0;
 
-	public static final double pGyro = 0.02;
-	public static final double iGyro = 0.0;
-	public static final double dGyro = 0.08;
+	public static  double pGyro = 0.001;
+	public static  double iGyro = 0.0;
+	public static  double dGyro = 0.004;
 	
-	public static final double pElev = 0.02;
-	public static final double iElev = 0.0;
-	public static final double dElev = 0.08;
-	public static final double fElev = 0.10;
+	public static double pElev = 0.02;
+	public static double iElev = 0.0;
+	public static double dElev = 0.08;
+	public static double fElev = 0.10;
+	
+	
 
 	//Drive Speed Scalar
 	public static double jukeSpeedScale = 0.85;
@@ -23,12 +25,13 @@ public class NumberConstants {
 	public static double speedScale = 1;
 	
 	//Elevator Constants
+	public static final double maxElevSpeed = 0;
+	
 	public static double elev_kforward = -0.0813;
 	
-	public static double HANG 			= 120;
-	public static double SCALE_TOP 		= 100;
-	public static double SCALE_MIDDLE 	= 90;
-	public static double SWITCH 		= 40;
+	public static double HANG 			= 62;
+	public static double SCALE_TOP 		= 80;
+	public static double SWITCH 		= 30;
 	public static double GROUND 		= 0;
 }
 

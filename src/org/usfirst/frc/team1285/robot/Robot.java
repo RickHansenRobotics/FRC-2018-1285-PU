@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.usfirst.frc.team1285.robot.commands.auto.*;
 import org.usfirst.frc.team1285.robot.subsystems.*;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,10 +28,12 @@ public class Robot extends IterativeRobot {
 	public static Intake intake;
 	public static Elevator elev;
 	public static OI oi;
+	
+	private int autoNum;
 //	UDP serverUDP;
 //	NetworkTable table;
 
-	public SendableChooser<Command> autoChooser;
+	public SendableChooser<Integer> autoChooser;
 	private int autoNumber;
 
 	
@@ -46,8 +49,13 @@ public class Robot extends IterativeRobot {
 		
 		prefs = Preferences.getInstance();
 
-		autoChooser = new SendableChooser<Command>();
-
+		autoChooser = new SendableChooser<Integer>();
+		
+		autoChooser.addObject("NoAuto", 0);
+		autoChooser.addDefault("AutoLine", 1);
+		autoChooser.addObject("Center Switch", 2);
+		autoChooser.addObject("Left Scale", 3);
+		autoChooser.addObject("TEST", 4);
 		SmartDashboard.putData("AUTO", autoChooser);
 	}
 
@@ -61,7 +69,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		autonomousCommand = autoChooser.getSelected();
+		autoNum = autoChooser.getSelected();
 	}
 
 	/**
@@ -76,11 +84,46 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		autonomousCommand = autoChooser.getSelected();
-
-		if (autonomousCommand != null)
+		drive.reset();
+		drive.brakeMode();
+		elev.resetEncoder();
+		intake.closeClamp();
+		intake.pivotUp();
+		
+		String data = "";
+		while(data.length()<3) {
+			data = DriverStation.getInstance().getGameSpecificMessage();
+		}
+		
+		autoNum = autoChooser.getSelected();
+		switch(autoNum) {
+		case 0:
+			autonomousCommand = new NoAuto();
+			break;
+		case 1:
+			autonomousCommand = new BaseLineCross();
+			break;
+		case 2:
+			autonomousCommand = new CenterSwitchAuton(data.charAt(0));
+			break;
+		case 3:
+			autonomousCommand = new LeftScaleAuton(data.charAt(1));
+			break;
+		case 4:
+			autonomousCommand = new PistonTestAuton();
+			break;
+			
+		}
+//		autonomousCommand = new CenterSwitchAuton();
+		
+		drive.updatePIDs();
+		
+			if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
+	
+	
+	
 
 	/**
 	 * This function is called periodically during autonomous
@@ -91,6 +134,8 @@ public class Robot extends IterativeRobot {
 
 	public void teleopInit() {
 		drive.reset();
+		drive.coastMode();
+		
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
@@ -115,6 +160,9 @@ public class Robot extends IterativeRobot {
 
 	public void updateSmartDashboard() {
 		//gyro Yaw value 
+		SmartDashboard.putNumber("Left", oi.getDriveLeftY());
+		SmartDashboard.putNumber("Right", oi.getDriveRightY());
+		
 		SmartDashboard.putNumber("Yaw", drive.getYaw());
 		SmartDashboard.putNumber("Roll", drive.getRoll());
 		SmartDashboard.putNumber("Pitch", drive.getPitch());
@@ -122,8 +170,12 @@ public class Robot extends IterativeRobot {
 		// DRIVE ENCODERS
 		SmartDashboard.putNumber("LEFT DRIVE ENCODER", drive.getLeftEncoderDist());
 		SmartDashboard.putNumber("RIGHT DRIVE ENCODER", drive.getRightEncoderDist());
+		SmartDashboard.putNumber("LEFT DRIVE ENCODER RAW", drive.getLeftEncoderRaw());
+		SmartDashboard.putNumber("RIGHT DRIVE ENCODER RAW", drive.getRightEncoderRaw());
 		SmartDashboard.putNumber("AVERAGE DRIVE ENCODER", drive.getAverageDistance());
-		SmartDashboard.putNumber("ELEV ENCODER", elev.getDistance()); 
+		SmartDashboard.putNumber("ELEV RAW ENCODER", elev.getRawEncoder());
+		SmartDashboard.putNumber("ELEV ENCODER", elev.getDistance());
+		SmartDashboard.putNumber("ELEV Velocity", elev.getVelocity());
 		
 		//Drive Preferences
 		SmartDashboard.putNumber("pDrive", NumberConstants.pDrive);
@@ -137,5 +189,18 @@ public class Robot extends IterativeRobot {
 		
 		//Elevator
 		SmartDashboard.putBoolean("Grounded", elev.isGrounded());
+		
+		NumberConstants.pElev = prefs.getDouble("pElev", 0.0);
+		NumberConstants.iElev = prefs.getDouble("iElev", 0.0);
+		NumberConstants.dElev = prefs.getDouble("dElev", 0.0);
+
+		NumberConstants.pDrive = prefs.getDouble("pDrive", 0.0);
+		NumberConstants.iDrive = prefs.getDouble("iDrive", 0.0);
+		NumberConstants.dDrive = prefs.getDouble("dDrive", 0.0);
+		
+		NumberConstants.pGyro = prefs.getDouble("pGyro", 0.0);
+		NumberConstants.iGyro = prefs.getDouble("iGyro", 0.0);
+		NumberConstants.dGyro = prefs.getDouble("dGyro", 0.0);
+		
 	}
 }

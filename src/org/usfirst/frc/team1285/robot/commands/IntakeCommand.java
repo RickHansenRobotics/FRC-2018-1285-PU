@@ -3,6 +3,7 @@ package org.usfirst.frc.team1285.robot.commands;
 import org.usfirst.frc.team1285.robot.Robot;
 import org.usfirst.frc.team1285.robot.utilities.ToggleBoolean;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -19,11 +20,13 @@ public class IntakeCommand extends Command {
 	 */
 	
 	private ToggleBoolean pivotState;
+	private ToggleBoolean clampState;
 	
 	public IntakeCommand() {
 		// Makes sure no other intake commands are running at the same time
 		requires(Robot.intake);
 		pivotState = new ToggleBoolean();
+		clampState = new ToggleBoolean();
 	}
 
 	// Called just before this Command runs the first time
@@ -41,21 +44,22 @@ public class IntakeCommand extends Command {
 		else {
 			Robot.intake.runIntake(0);
 		}
-		if(Robot.oi.getToolLeftTrigger()) {
-			Robot.intake.leftIntake();
-		}
-		else if (Robot.oi.getToolRightTrigger()) {
-			Robot.intake.openClamp();
-		}
-		else {
-			Robot.intake.closeClamp();
-		}
-		pivotState.set(Robot.oi.getToolLeftTrigger());
-		if(pivotState.get()) {
-			Robot.intake.pivotUp();
-		}
-		else {
-			Robot.intake.pivotDown();
+		
+		if (!DriverStation.getInstance().isAutonomous()) {
+			pivotState.set(Robot.oi.getToolLeftTrigger());
+			if(pivotState.get()) {
+				Robot.intake.pivotDown();
+			}
+			else {
+				Robot.intake.pivotUp();
+			}
+			
+			if(Robot.oi.getToolRightTrigger()){
+				Robot.intake.openClamp();
+			}
+			else{
+				Robot.intake.closeClamp();
+			}
 		}
 	}
 
