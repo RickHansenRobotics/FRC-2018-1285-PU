@@ -135,6 +135,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		drive.reset();
 		drive.coastMode();
+		elev.updatePIDs();
 		
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
@@ -201,6 +202,8 @@ public class Robot extends IterativeRobot {
 		NumberConstants.pGyro = prefs.getDouble("pGyro", 0.0);
 		NumberConstants.iGyro = prefs.getDouble("iGyro", 0.0);
 		NumberConstants.dGyro = prefs.getDouble("dGyro", 0.0);
+		
+		SmartDashboard.putNumber("autoNum", autoNum);
 		
 	}
 }

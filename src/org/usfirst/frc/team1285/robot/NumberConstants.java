@@ -30,7 +30,7 @@ public class NumberConstants {
 	public static double elev_kforward = -0.0813;
 	
 	public static double HANG 			= 62;
-	public static double SCALE_TOP 		= 80;
+	public static double SCALE_TOP 		= 85;
 	public static double SWITCH 		= 30;
 	public static double GROUND 		= 0;
 }

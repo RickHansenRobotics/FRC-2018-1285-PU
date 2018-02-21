@@ -108,6 +108,10 @@ public class Elevator extends Subsystem {
 		leftElevator.setSelectedSensorPosition(0, 0, 0);
 	}
 	
+	public void updatePIDs() {
+		elevPID.changePIDGains(NumberConstants.pElev, NumberConstants.iElev, NumberConstants.dElev);
+	}
+	
 	
     
     

@@ -52,7 +52,7 @@ public class IntakeCommand extends Command {
 			}
 			else {
 				Robot.intake.pivotUp();
-			}
+			} 
 			
 			if(Robot.oi.getToolRightTrigger()){
 				Robot.intake.openClamp();
