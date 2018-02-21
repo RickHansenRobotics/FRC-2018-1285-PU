@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class RightScaleAuton extends CommandGroup {
 
     public RightScaleAuton(char direction) {
-    	if(direction == 'L') {
+    	if(direction == 'R') {
     		addSequential(new DrivePath(new Point(0,0),new Point(0,-50),new Point(15,-150),new Point(15,-300), 3, 1));
     		addParallel(new DriveTurn(-70, 1, 1));
     		addSequential(new RunElevator(NumberConstants.SCALE_TOP,1, 3));
