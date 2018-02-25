@@ -12,26 +12,29 @@ public class RobotMap {
 	//**************************************************************************        
 	
 	public static final int RIGHT_DRIVE_FRONT                               = 8; 
-	public static final int RIGHT_DRIVE_MIDDLE 								= 7;
+	public static final int RIGHT_DRIVE_MIDDLE 								= 3;
 	public static final int RIGHT_DRIVE_BACK                                = 6;
 	
 	public static final int LEFT_DRIVE_FRONT                                = 1;
-	public static final int LEFT_DRIVE_MIDDLE                               = 4;
+	public static final int LEFT_DRIVE_MIDDLE                               = 2;
 	public static final int LEFT_DRIVE_BACK                                 = 5;
 
 	//**************************************************************************
 	//******************************* INTAKE ***********************************
 	//**************************************************************************        
 		
-	public static final int RIGHT_INTAKE                                    = 2;
-	public static final int LEFT_INTAKE                                     = 3;
+	public static final int RIGHT_INTAKE                                    = 12;
+	public static final int LEFT_INTAKE                                     = 11;
 	
 	//**************************************************************************
 	//******************************* Elevator ***********************************
 	//**************************************************************************        
 		
 	public static final int RIGHT_ELEVATOR                                   = 9; 
-	public static final int LEFT_ELEVATOR                                    = 10;
+	public static final int RIGHT_ELEVATOR_FOLLOWER                          = 7; 
+
+	public static final int LEFT_ELEVATOR                                    = 4;
+	public static final int LEFT_ELEVATOR_MASTER                                    = 10;
 	
 	public static final int LEFT_BUMPER_SWITCH								 = 0;
 	public static final int RIGHT_BUMPER_SWITCH								 = 9;

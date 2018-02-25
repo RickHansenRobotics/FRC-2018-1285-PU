@@ -21,6 +21,8 @@ public class Elevator extends Subsystem {
 	//RightElevator//
 	private WPI_VictorSPX rightElevator;
 	private WPI_TalonSRX leftElevator;
+	private WPI_VictorSPX rightFrontElevator;
+	private WPI_VictorSPX leftFrontElevator;
 	private DigitalInput leftSwitch;
 	private DigitalInput rightSwitch;
     // Put methods for controlling this subsystem
@@ -29,21 +31,25 @@ public class Elevator extends Subsystem {
 	public PIDController elevPID;
 	
 	public Elevator() {
-	    leftElevator = new WPI_TalonSRX (RobotMap.LEFT_ELEVATOR);
+	    leftElevator = new WPI_TalonSRX (RobotMap.LEFT_ELEVATOR_MASTER);
 	    leftElevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 	    leftElevator.setInverted(false);
+	    leftFrontElevator = new WPI_VictorSPX (RobotMap.LEFT_ELEVATOR);
+	    leftFrontElevator.setInverted(false);
+	    leftFrontElevator.follow(leftElevator);
 	    
 	    rightElevator = new WPI_VictorSPX(RobotMap.RIGHT_ELEVATOR);
 	    rightElevator.setInverted(true);
+	    rightElevator.follow(leftElevator);
+	    rightFrontElevator = new WPI_VictorSPX(RobotMap.RIGHT_ELEVATOR_FOLLOWER);
+	    rightFrontElevator.setInverted(true);
+	    rightFrontElevator.follow(leftElevator);
+	    
 	    
 	    elevPID = new PIDController(NumberConstants.pElev, NumberConstants.iElev, NumberConstants.dElev);
 	    leftSwitch = new DigitalInput(RobotMap.LEFT_BUMPER_SWITCH);
 	    rightSwitch = new DigitalInput(RobotMap.RIGHT_BUMPER_SWITCH);
 	    
-	    leftElevator.config_kP(0, NumberConstants.pElev, 0);
-	    leftElevator.config_kI(0, NumberConstants.iElev, 0);
-	    leftElevator.config_kD(0, NumberConstants.dElev, 0);
-	    leftElevator.config_kF(0, NumberConstants.fElev, 0);
 	    
 	    resetEncoder();
 	}
@@ -55,31 +61,7 @@ public class Elevator extends Subsystem {
     
     public void runElevator(double pwmVal) {
     	leftElevator.set(pwmVal);
-    	rightElevator.set(pwmVal);
     }
-    
-    public void runMotionMagic(double setpoint) {
-		leftElevator.set(ControlMode.MotionMagic, -setpoint);
-		rightElevator.set(ControlMode.MotionMagic, setpoint);
-	}
-
-	public double getLeftMotionMagicError() {
-		return leftElevator.getClosedLoopError(0);
-	}
-
-	public double getRightMotionMagicError() {
-		return rightElevator.getClosedLoopError(0);
-	}
-	
-	public void magicMotionSetpoint(double setpoint, int cruiseVelocity, double secsToMaxSpeed) {
-
-		leftElevator.configMotionCruiseVelocity(cruiseVelocity, 0);
-		leftElevator.configMotionAcceleration((int) (NumberConstants.maxElevSpeed / secsToMaxSpeed), 0);
-
-		rightElevator.configMotionCruiseVelocity(cruiseVelocity, 0);
-		rightElevator.configMotionAcceleration((int) (NumberConstants.maxElevSpeed / secsToMaxSpeed), 0);
-		runMotionMagic(setpoint * -RobotMap.ELEV_ROTATIONS_TO_INCHES);
-	}
     
     public double getDistance(){
 		return leftElevator.getSelectedSensorPosition(0) * -RobotMap.ELEV_TICKS_TO_INCHES;
