@@ -35,17 +35,20 @@ public class IntakeCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (Robot.oi.getToolRightBumper()) {
-			Robot.intake.intake();
-		}
-		else if (Robot.oi.getToolLeftBumper()){
-			Robot.intake.outtake();
-		}
-		else {
-			Robot.intake.runIntake(0);
-		}
-		
 		if (!DriverStation.getInstance().isAutonomous()) {
+			if (Robot.oi.getToolRightBumper()) {
+				Robot.intake.outtake();
+			}
+			else if (Robot.oi.getToolLeftBumper()){
+				Robot.intake.intake();
+			}
+			else {
+//Change from DCMP *too fast   Robot.intake.runIntake(-0.65*Robot.oi.getToolLeftY());
+				Robot.intake.runIntake(-0.45*Robot.oi.getToolLeftY());
+//				Robot.intake.runIntake(-0.2);
+			}
+			
+		
 			pivotState.set(Robot.oi.getToolLeftTrigger());
 			if(pivotState.get()) {
 				Robot.intake.pivotDown();

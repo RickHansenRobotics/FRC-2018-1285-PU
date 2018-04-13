@@ -52,11 +52,15 @@ public class Robot extends IterativeRobot {
 		autoChooser = new SendableChooser<Integer>();
 		
 		autoChooser.addObject("NoAuto", 0);
-		autoChooser.addDefault("AutoLine", 1);
-		autoChooser.addObject("Center Switch", 2);
+		autoChooser.addObject("AutoLine", 1);
+		autoChooser.addDefault("Center Switch", 2);
 		autoChooser.addObject("Left Scale", 3);
-		autoChooser.addObject("TEST", 4);
-		SmartDashboard.putData("AUTO", autoChooser);
+		autoChooser.addObject("Center Right Switch", 4);
+		autoChooser.addObject("Left Scale Switch", 5);
+		autoChooser.addObject("Left Pure", 6);
+		autoChooser.addObject("Test Turn", 7);
+		SmartDashboard.putData("AUTON", autoChooser);
+		
 	}
 
 	public void disabledInit() {
@@ -86,7 +90,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		drive.reset();
 		drive.brakeMode();
-		elev.resetEncoder();
+		//elev.resetEncoder();
 		intake.closeClamp();
 		intake.pivotUp();
 		
@@ -94,7 +98,7 @@ public class Robot extends IterativeRobot {
 		while(data.length()<3) {
 			data = DriverStation.getInstance().getGameSpecificMessage();
 		}
-		
+		SmartDashboard.putString("game data", data);
 		autoNum = autoChooser.getSelected();
 		switch(autoNum) {
 		case 0:
@@ -110,11 +114,21 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new LeftScaleAuton(data.charAt(1));
 			break;
 		case 4:
-			autonomousCommand = new PistonTestAuton();
+			autonomousCommand = new CenterSwitchRightAuton(data.charAt(0));
 			break;
-			
+		case 5:
+			autonomousCommand = new LeftScaleSwitchAuton(data.charAt(0), data.charAt(1));
+			break;
+		case 6:
+			autonomousCommand = new LeftPureAuton(data.charAt(0), data.charAt(1));
+			break;
+		case 7:
+			autonomousCommand = new DriveTurn(90, 0.8, 3);
+			break;
+		default:
+			autonomousCommand = new TimedAuto(0.8, 2.5);
 		}
-//		autonomousCommand = new CenterSwitchAuton();
+//		autonomousCommand = new TurnCommand(90, 0.8, 3);
 		
 		drive.updatePIDs();
 		
@@ -163,12 +177,10 @@ public class Robot extends IterativeRobot {
 		//gyro Yaw value 
 		SmartDashboard.putNumber("Left", oi.getDriveLeftY());
 		SmartDashboard.putNumber("Right", oi.getDriveRightY());
-		
+		SmartDashboard.putBoolean("Is Grounded", elev.isGrounded());
 		SmartDashboard.putNumber("Yaw", drive.getYaw());
-		SmartDashboard.putNumber("Roll", drive.getRoll());
-		SmartDashboard.putNumber("Pitch", drive.getPitch());
 		
-		// DRIVE ENCODERS
+		 //DRIVE ENCODERS
 		SmartDashboard.putNumber("LEFT DRIVE ENCODER", drive.getLeftEncoderDist());
 		SmartDashboard.putNumber("RIGHT DRIVE ENCODER", drive.getRightEncoderDist());
 		SmartDashboard.putNumber("LEFT DRIVE ENCODER RAW", drive.getLeftEncoderRaw());
@@ -189,7 +201,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("dGyro", NumberConstants.dGyro);
 		
 		//Elevator
-		SmartDashboard.putBoolean("Grounded", elev.isGrounded());
+		//SmartDashboard.putBoolean("Grounded", elev.isGrounded());
 		
 		NumberConstants.pElev = prefs.getDouble("pElev", 0.0);
 		NumberConstants.iElev = prefs.getDouble("iElev", 0.0);
@@ -204,6 +216,7 @@ public class Robot extends IterativeRobot {
 		NumberConstants.dGyro = prefs.getDouble("dGyro", 0.0);
 		
 		SmartDashboard.putNumber("autoNum", autoNum);
-		
+		SmartDashboard.putData("Auton Chooser", autoChooser);
+
 	}
 }

@@ -12,43 +12,46 @@ public class RobotMap {
 	//**************************************************************************        
 	
 	public static final int RIGHT_DRIVE_FRONT                               = 8; 
-	public static final int RIGHT_DRIVE_MIDDLE 								= 3;
-	public static final int RIGHT_DRIVE_BACK                                = 6;
+	public static final int RIGHT_DRIVE_MIDDLE 								= 6;
+	public static final int RIGHT_DRIVE_BACK                                = 3;
 	
 	public static final int LEFT_DRIVE_FRONT                                = 1;
-	public static final int LEFT_DRIVE_MIDDLE                               = 2;
-	public static final int LEFT_DRIVE_BACK                                 = 5;
+	public static final int LEFT_DRIVE_MIDDLE                               = 5;
+	public static final int LEFT_DRIVE_BACK                                 = 2;
 
 	//**************************************************************************
 	//******************************* INTAKE ***********************************
 	//**************************************************************************        
 		
-	public static final int RIGHT_INTAKE                                    = 12;
-	public static final int LEFT_INTAKE                                     = 11;
+	public static final int RIGHT_INTAKE                                    = 11;
+	public static final int LEFT_INTAKE                                     = 12;
 	
 	//**************************************************************************
 	//******************************* Elevator ***********************************
 	//**************************************************************************        
 		
-	public static final int RIGHT_ELEVATOR                                   = 9; 
-	public static final int RIGHT_ELEVATOR_FOLLOWER                          = 7; 
+	public static final int RIGHT_ELEVATOR                                   = 7; 
+	public static final int RIGHT_ELEVATOR_FOLLOWER                          = 9; 
 
 	public static final int LEFT_ELEVATOR                                    = 4;
-	public static final int LEFT_ELEVATOR_MASTER                                    = 10;
+	public static final int LEFT_ELEVATOR_MASTER                             = 10;
 	
-	public static final int LEFT_BUMPER_SWITCH								 = 0;
-	public static final int RIGHT_BUMPER_SWITCH								 = 9;
+	public static final int LEFT_BUMPER_SWITCH								 = 9;
+	public static final int RIGHT_BUMPER_SWITCH								 = 8;
 	
 	//**************************************************************************
 	//*************************** PNEUMATICS ***********************************
 	//**************************************************************************
 	//Clamps
-	public static final int CLAMP_SOLENOID_A								= 0;
-	public static final int CLAMP_SOLENOID_B							 	= 2;
+	public static final int CLAMP_SOLENOID_A								= 4;
+	public static final int CLAMP_SOLENOID_B							 	= 6;
 	//Pivot
-	public static final int PIVOT_SOLENOID_A							 	= 4;
-	public static final int PIVOT_SOLENOID_B							 	= 6;
+	public static final int PIVOT_SOLENOID_A							 	= 0;
+	public static final int PIVOT_SOLENOID_B							 	= 2;
 	
+//	public static final int WRATCHET_SOLENOID_A								= 5;
+//	public static final int WRATCHET_SOLENOID_B								= 3;
+//	^^							Recheck to make sure ^^
 	//**************************************************************************
     //********************* DRIVE ENCODER CONSTANTS ****************************
 	//**************************************************************************
@@ -64,8 +67,8 @@ public class RobotMap {
     //********************* INTAKE ENCODER CONSTANTS ***************************
 	//**************************************************************************
 	
-	public static final boolean leftIntakeInverted = false;
-	public static final boolean rightIntakeInverted = true;
+	public static final boolean leftIntakeInverted = true;
+	public static final boolean rightIntakeInverted = false;
 	
 	//**************************************************************************
     //********************* Elevator ENCODER CONSTANTS ***************************

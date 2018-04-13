@@ -8,9 +8,9 @@ public class NumberConstants {
 	public static  double iDrive = 0.001;
 	public static  double dDrive = 0.0;
 
-	public static  double pGyro = 0.001;
+	public static  double pGyro = 0.015;
 	public static  double iGyro = 0.0;
-	public static  double dGyro = 0.004;
+	public static  double dGyro = 0.1;
 	
 	public static double pElev = 0.02;
 	public static double iElev = 0.0;
@@ -27,7 +27,7 @@ public class NumberConstants {
 	//Elevator Constants
 	public static final double maxElevSpeed = 0;
 	
-	public static double elev_kforward = -0.0813;
+	public static double elev_kforward = -0.05;
 	
 	public static double HANG 			= 62;
 	public static double SCALE_TOP 		= 85;

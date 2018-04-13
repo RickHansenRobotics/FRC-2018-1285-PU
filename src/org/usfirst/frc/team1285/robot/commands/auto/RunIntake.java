@@ -8,15 +8,21 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RunElevator extends Command {
-	private double setPoint;
+public class RunIntake extends Command {
 	private double speed;
 	private double timeOut;
+	private boolean ends;
 	
-    public RunElevator(double setPoint, double speed, double timeOut) {
-        this.setPoint = setPoint;
+    public RunIntake(double speed, double timeOut) {
         this.speed = speed;
         this.timeOut = timeOut;
+        this.ends = true;
+    }
+    
+    public RunIntake(double speed) {
+    	this.speed = speed;
+    	this.timeOut = 1;
+    	this.ends = false;
     }
 
     // Called just before this Command runs the first time
@@ -26,7 +32,7 @@ public class RunElevator extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elev.setPosition(setPoint, speed, 2);
+    	Robot.intake.runIntake(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -36,12 +42,16 @@ public class RunElevator extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.elev.runElevator(0);
+    	if(ends) {
+    		Robot.intake.runIntake(0);
+    	}
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.elev.runElevator(0);
+    	if(ends) {
+    		Robot.intake.runIntake(0);
+    	}
     }
 }

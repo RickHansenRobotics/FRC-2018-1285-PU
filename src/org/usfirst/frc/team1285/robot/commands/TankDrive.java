@@ -32,13 +32,13 @@ public class TankDrive extends Command {
 	 */
 	protected void execute() {		
 		// Runs drive at jotstick input, if right bumper is pressed drive speed is halved
-		if(Robot.oi.getDriveLeftBumper()) {
-			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY());
-			Robot.drive.runRightDrive(Robot.oi.getDriveRightY());
+		if(Robot.oi.getDriveRightBumper()) {
+			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY()*0.4);
+			Robot.drive.runRightDrive(Robot.oi.getDriveRightY()*0.4);
 		}
 		else {
-			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY()*0.6);
-			Robot.drive.runRightDrive(Robot.oi.getDriveRightY()*0.6);
+			Robot.drive.runLeftDrive(Robot.oi.getDriveLeftY()*0.90);
+			Robot.drive.runRightDrive(Robot.oi.getDriveRightY()*0.90);
 		}
 		
 		

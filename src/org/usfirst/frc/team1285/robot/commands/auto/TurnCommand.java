@@ -36,11 +36,12 @@ public class TurnCommand extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.drive.reset();
+		setTimeout(timeOut);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-//		Robot.drive.turnDrive(angle, speed, 1);
+		Robot.drive.turnDrive(angle, speed, 1);
 	}
 
 	// Command is finished when timed out
@@ -58,5 +59,7 @@ public class TurnCommand extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run, once done will stop robot from moving.
 	protected void interrupted() {
+		Robot.drive.runLeftDrive(0);
+		Robot.drive.runRightDrive(0);
 	}
 }

@@ -5,33 +5,35 @@ import org.usfirst.frc.team1285.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 
-public class DriveTurn extends Command {
+public class TimedTurn extends Command {
+	private char direction;
 	private double speed;
-	private double angle;
 	private double timeOut;
-	private double tolerance;
 
-	public DriveTurn(double angle, double speed, double timeOut) {
-		this(angle, speed, timeOut, 1);
-	}
-
-    public DriveTurn(double angle, double speed, double timeOut, double tolerance) {
+    public TimedTurn(char direction, double speed, double timeOut) {
+    	this.direction = direction;
     	this.speed = speed;
-    	this.angle = angle;
     	this.timeOut = timeOut;
-    	this.tolerance = tolerance;
     	requires(Robot.drive);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drive.resetEncoders();
     	setTimeout(timeOut);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drive.turnDrive(angle, speed, tolerance);
+    	if(direction=='L') {
+	    	Robot.drive.runLeftDrive(speed);
+	    	//taken out at DCMP-- Robot.drive.runRightDrive(-speed);
+	    	Robot.drive.runRightDrive(speed);
+    	}
+    	else if (direction=='R') {
+    		Robot.drive.runLeftDrive(speed);
+	    	//taken out at DCMP-- Robot.drive.runRightDrive(-speed);
+    		Robot.drive.runRightDrive(speed);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -52,5 +54,7 @@ public class DriveTurn extends Command {
     	Robot.drive.runLeftDrive(0);
 		Robot.drive.runRightDrive(0);
 		Robot.drive.resetPID();
+    //	Robot.geartool.intake(1);
+    	
     }
 }

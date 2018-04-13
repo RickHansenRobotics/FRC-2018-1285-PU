@@ -66,7 +66,7 @@ public class DriveCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-//		Robot.drive.driveStraight(distance, speed, angle, epsilon);
+		Robot.drive.driveSetpoint(distance, speed, angle, epsilon);
 	}
 
 	// Command will finish when it is timed out
@@ -80,7 +80,7 @@ public class DriveCommand extends Command {
 		Robot.drive.runLeftDrive(0);
 		Robot.drive.runRightDrive(0);
 		Robot.drive.drivePID.resetPID();
-		Robot.drive.gyroPID.resetPID();
+//		Robot.drive.gyroPID.resetPID();
 	}
 
 	// Called when another command which requires one or more of the same
@@ -89,6 +89,6 @@ public class DriveCommand extends Command {
 		Robot.drive.runLeftDrive(0);
 		Robot.drive.runRightDrive(0);
 		Robot.drive.drivePID.resetPID();
-		Robot.drive.gyroPID.resetPID();
+//		Robot.drive.gyroPID.resetPID();
 	}
 }

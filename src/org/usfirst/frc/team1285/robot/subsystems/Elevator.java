@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -18,15 +19,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Elevator extends Subsystem {
 
-	//RightElevator//
+	
 	private WPI_VictorSPX rightElevator;
 	private WPI_TalonSRX leftElevator;
 	private WPI_VictorSPX rightFrontElevator;
 	private WPI_VictorSPX leftFrontElevator;
 	private DigitalInput leftSwitch;
 	private DigitalInput rightSwitch;
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+    //private DoubleSolenoid wratchet; 
 	
 	public PIDController elevPID;
 	
@@ -35,7 +35,7 @@ public class Elevator extends Subsystem {
 	    leftElevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 	    leftElevator.setInverted(false);
 	    leftFrontElevator = new WPI_VictorSPX (RobotMap.LEFT_ELEVATOR);
-	    leftFrontElevator.setInverted(false);
+	    leftFrontElevator.setInverted(true);
 	    leftFrontElevator.follow(leftElevator);
 	    
 	    rightElevator = new WPI_VictorSPX(RobotMap.RIGHT_ELEVATOR);
@@ -50,14 +50,22 @@ public class Elevator extends Subsystem {
 	    leftSwitch = new DigitalInput(RobotMap.LEFT_BUMPER_SWITCH);
 	    rightSwitch = new DigitalInput(RobotMap.RIGHT_BUMPER_SWITCH);
 	    
-	    
-	    resetEncoder();
+//	    wratchet = new DoubleSolenoid(RobotMap.WRATCHET_SOLENOID_A, RobotMap.WRATCHET_SOLENOID_B);
+//	    resetEncoder();
 	}
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         setDefaultCommand(new ElevateCommand());
     }
+    
+    //public void engageWratchet() {
+    //	wratchet.set(DoubleSolenoid.Value.kForward);
+    //}
+
+    //public void disengageWratchet() {
+    //	wratchet.set(DoubleSolenoid.Value.kReverse);
+    //}
     
     public void runElevator(double pwmVal) {
     	leftElevator.set(pwmVal);
@@ -81,7 +89,7 @@ public class Elevator extends Subsystem {
     }
     
     public boolean isGrounded(){
-    	return !(leftSwitch.get() || rightSwitch.get());
+    	return !(leftSwitch.get() && rightSwitch.get());
     
     }
 	

@@ -8,15 +8,19 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class CenterSwitchAuton extends CommandGroup {
+public class CenterSwitchTimedAuton extends CommandGroup {
 
-    public CenterSwitchAuton(char direction) {
+    public CenterSwitchTimedAuton(char direction) {
+    	addSequential(new DriveDistance(50, 0.8, 0, 3));
+    	addSequential(new TimedTurn(direction, 0.8, 3));
+    	addSequential(new DriveDistance(50, 0.8, 0, 3));
     	if (direction == 'L') {
-    		addParallel(new DrivePath(new Point(0,0), new Point(-35,32), new Point(-50,22), new Point(-50,130), 3, 0.8));
+    		addSequential(new TimedTurn('R', 0.8, 3));
     	}
     	else {
-    		addParallel(new DrivePath(new Point(0,0), new Point(35,32), new Point(40,22), new Point(40,130), 3, 0.8));	
+    		addSequential(new TimedTurn('L', 0.8, 3));	
     	}
+    	addSequential(new DriveDistance(50, 0.8, 0, 3));
     	addSequential(new RunElevator(NumberConstants.SWITCH, 1, 2));
     	addSequential(new OpenIntakeClamp(true));
     	addSequential(new ExtendIntakePivot(false));
